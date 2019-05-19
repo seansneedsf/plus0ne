@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="375" height="65">
+    <g>
+        <defs>
+            <linearGradient id="idn08B7PJg3g-1368702770" gradientTransform="rotate(-90, 0.5, 0.5)">
+                <stop offset="0" stop-color="rgba(0, 10, 35, 1.00)" stop-opacity="1">
+
+                </stop>
+                <stop offset="1" stop-color="rgba(32, 43, 68, 1.00)" stop-opacity="1">
+
+                </stop>
+            </linearGradient>
+        </defs>
+        <path d="M 0 18 C 0 18 95 -10 123 18 C 151 46 220 60 220 60 C 220 60 274 62 301 43 C 328 24 364.5 -5.5 375 5 C 385.5 15.5 375 65 375 65 L 0 65 Z" fill="url(#idn08B7PJg3g-1368702770)">
+
+        </path>
+    </g>
+</svg>
