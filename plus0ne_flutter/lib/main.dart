@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:plus0ne/widgets/createEvent.dart';
-import 'package:plus0ne/widgets/homepage.dart';
+import 'package:plus0ne/widgets/stateful/createEvent.dart';
+import 'package:plus0ne/assets/themeData/themes.dart';
 
 void main() {
-  runApp(MaterialApp(
-    title: 'Navigation Basics',
-    home: CreateEvent(),
-    //home: HomePage(),
-  ));
+    runApp(MaterialApp(
+        theme: Themes.getThemeFromKey(ThemeKeys.NIGHT),
+        home: CreateEvent(),
+    ));
 }
