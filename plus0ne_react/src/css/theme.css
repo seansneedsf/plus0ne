@@ -1,0 +1,88 @@
+.app-bar-light{
+    background-color: #55CCFF!important;
+}
+.app-bar-dark{
+    background-color: #000A23!important;
+}
+.app-preview-dark{
+    background-color: #000A23!important;
+}
+.app-preview-light{
+    background-color: #ffffff!important;
+}
+.day-night-row-container-light{
+    background: linear-gradient(0deg, #FFFFFF, #55ccff);
+}
+
+.day-night-row-container-dark{
+    background: linear-gradient(0deg, #181f4d, rgba(0, 10, 35, 1.00));
+}
+
+.content-light{
+    background-color: #F1F1F1;
+}
+.content-dark{
+    background-color: #000A23;
+}
+.typographic-color-light{
+    color: black !important;
+}
+.typographic-color-light .MuiInputBase-input-71{
+    color: black !important;
+}
+
+.typographic-color-dark{
+    color: white !important;
+}
+.typographic-color-dark .MuiInputBase-input-71{
+    color: white !important;
+}
+
+.avatar-container-light{
+    background-color: #55CCFF !important;
+}
+.avatar-container-dark{
+    background-color: #181F4E !important;
+}
+
+.message-content-dark{
+    background-color: #0A6AA5 !important;
+}
+.message-content-light{
+    background-color: #66BB66 !important;
+}
+
+.date-time-item-dark{
+    background-color: #555555 !important;
+}
+
+.date-time-item-light{
+    background-color: #555555 !important;
+}
+
+.location-dark{
+    background-color: #EE4444 !important;
+}
+.location-light{
+    background-color: #EE4444 !important;
+}
+.host-invite-dark{
+    background-color: #DDDDDD !important;
+}
+.host-invite-light{
+    background-color: #DDDDDD !important;
+}
+.host-invite-avatar-light{
+    background-color: #999999 !important;
+}
+.host-invite-avatar-dark{
+    background-color: #333333 !important;
+
+}
+.message-container-user-edit .MuiPaper-elevation2-14{
+    box-shadow: unset !important;
+    border: 1.5px dashed grey;
+}
+.message-container-user-edit .MuiAvatar-colorDefault-42{
+    border: 1.5px dashed grey;
+}

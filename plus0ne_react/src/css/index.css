@@ -1,0 +1,339 @@
+:root{
+    --app-bar-height: 56px;
+    --date-location-box-height: 44px;
+}
+@import "containers.css";
+@import "theme.css";
+@import "loader.css";
+.splash-screen{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    z-index: 9;
+    background-color: #000a23;
+    overflow: hidden;
+}
+
+body{
+    margin: 0 !important;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    overflow-y: scroll;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+.splash-screen-image{
+    width: 45%;
+    max-width: 400px;
+    min-width: 150px;
+}
+
+.event-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width:100%;
+    height: 160px;
+}
+
+.event-header-title{
+    position: absolute;
+    top: calc(100% - 38px);
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+}
+
+.event-list-item{
+    display: flex;
+    height: 48px;
+}
+
+.list-item-icon-container{
+    flex-basis: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.event-list-detail-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.event-header-image{
+    width: 100%;
+    filter: blur(3px);
+}
+
+.message-container{
+    height: 92px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: -16px;
+}
+.message-avatar-container{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top:6px;
+    z-index: 5;
+}
+
+.message-avatar{
+    width: 54px;
+    height: 54px;
+    border: 1px solid black;
+}
+.message-content-container{
+    width: calc(100% - 72px);
+    position: absolute;
+    height: 42px;
+    left: 22px;
+    display: flex;
+    align-items: center;
+    padding: 6px 24px 6px 26px;
+}
+.message-content-container-host{
+    justify-content: flex-end;
+    border: unset;
+}
+.message-content{
+    font-size: 14px;
+    word-wrap: break-word;
+}
+.message-content-response{
+    white-space: nowrap;
+}
+
+.MuiFormControl-marginNormal-96{
+    margin: 0 !important;
+}
+.home-screen{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+.home-intraction-control{
+    height: calc(100vh - 56px);
+    position:absolute;
+    top: 56px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+
+.app-bar-icon-container{
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+}
+
+.app-title-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.sun-moon-container{
+    height: 135px;
+
+}
+.curve-container{
+    height: 65px;
+}
+.day-night-row-container{
+    width: 100vw;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-row-container{
+    height: calc(100vh - 256px);
+    display: flex;
+    flex-direction: column;
+}
+
+.greeting-container{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.greeting-container>span{
+    font-size: 2em;
+    color: white;
+}
+
+.bot-chat-container{
+    height: calc(100% - 160px);
+    overflow: hidden;
+    overflow-y: scroll;   
+    flex-grow: 1; 
+}
+.user-input-container{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+
+.host-message-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+}
+.host-message-avatar-container{
+    width: 70px;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.host-message-content-container{
+    flex-grow: 1;
+}
+.host-message-content-container .MuiFormControl-root-44{
+    width: 100%;
+}
+.host-message-content-container .MuiInputBase-input-71{
+    font-size: 12px;
+}
+
+/* dimensional  */
+.margin-top-6{
+    margin-top: 6px;
+}
+.margin-bottom-6{
+    margin-bottom: 6px;
+}
+.percent-100-width{
+    width: 100%;
+}
+.date-time-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    height: var(--date-location-box-height);
+}
+.date-time-item{
+    width: calc(50% - 6px);
+    height: 100%;
+}
+.location-container{
+    width: 100%;
+    height: var(--date-location-box-height);
+}
+.event-detail-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.detail-item-font{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.title-container{
+    height: 64px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+.title-center{
+    justify-content: center;
+}
+.title-left{
+    justify-content: flex-start;
+}
+.title-item{
+    font-size: 36px;
+    font-weight: 600;
+}
+.preview-image-container{
+    width: 100%;
+    height: 180px;
+}
+.preview-pic-loader-container{
+    height: 100%;
+    width: 100%;
+}
+.preview-image{
+    width: 100%;
+    height: 100%;
+}
+.hide-preview-image{
+    display: none;
+}
+
+.message-edit-field{
+    left: 0px;
+}
+.edit-avatar-container{
+    right: 0px;
+}
+.preview-user-eidt-container{
+    display: flex;
+    justify-content: flex-end;
+}
+.message-container-user-edit{
+    min-width: 60%;
+    max-width: 60%;
+}
+.message-container-guest-response{
+    max-width: 72%;
+}
+
+.message-content-container__user-response{
+    left: 0px;
+    justify-content: center;
+}
+.message-avatar-container__user-response{
+    right: 0px;
+}
+.user-message-container{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.message-container__user-response{
+    max-width: 72%;
+    min-width: 88px;
+    justify-content: center;
+}
+
+.conversation-section{
+    height: calc(100% - 357px);
+    width: 100%;
+    position: relative;
+}
+.conversations{
+    height: calc(100% - 80px);
+    width: 100%;
+    position: absolute;
+}
+
+.conversation-input{
+    position: absolute;
+    top: calc(100% - 80px);
+    height: 80px;
+    width: 100vw;
+    z-index: 6;
+    left: -24px;
+    padding-right: 12px;
+}

@@ -23,11 +23,13 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+  font_awesome_flutter: ^8.2.0
+  feather_icons_flutter: ^4.7.4
+  flutter_dialogflow: ^0.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  feather_icons_flutter: ">=4.7.4"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -40,11 +42,12 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - lib/resources/icons/plus0ne_Logo.png
-    - lib/resources/graphics/moonlight.png
-    - lib/resources/graphics/sunlight.png
-    - lib/resources/graphics/moonlightHorizon.png
-    - lib/resources/graphics/sunlightHorizon.png
+    - lib/assets/keys/plus0nefinalproject-eea746d71853.json
+    - lib/assets/icons/plus0ne_Logo.png
+    - lib/assets/graphics/moonlight.png
+    - lib/assets/graphics/sunlight.png
+    - lib/assets/graphics/moonlightHorizon.png
+    - lib/assets/graphics/sunlightHorizon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
