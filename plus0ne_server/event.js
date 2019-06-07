@@ -9,46 +9,74 @@ const database = require("./firebaseModule");
 
 //hanlde initial request for create event
 router.get("/", (req, res)=>{
-    res.json({event: new Event()});
+    console.log("Request: Get a template event.")
+    const event = new Event();
+    res.json({event});
 });
 
 router.get("/:id", async (req, res)=>{
-    const eventId = req.params.id;
-    const event = await database.getEvent(eventId);
+    console.log("Request: Get a specific event.");
+    const id = req.params.id;
+    const event = await database.getEvent(id);
     res.json({event});
 });
 
 //handle create event and save event to firebase
 router.post("/", (req, res)=>{
-    const origin = req.get('origin');
-    const Id = req.body.Id;
-    const name = req.body.name;
-    const date = req.body.date;
-    const time = req.body.time;
-    const location = req.body.location;
-    const email = req.body.email;
-    const guests = req.body.guests;
-    if(name&&date&&location&&email){
-        const event = new Event(Id, name, date, time, location, email, guests);
-        const callBackAddress = `${origin}/event/${event.Id}`;
-        console.log("Event: ", event, "Call Back Address; ", callBackAddress);
+    console.log("Request: Create a new event.")
+    const {id, name, date, time, address, email} = {...req.body};
+    const origin = (req.get('origin')?req.get('origin'):"http://localhost:3000");
+    if(id&&name&&date&&time&&address&&email){
+        const callBackAddress = `${origin}/event/${id}`;
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        console.log( "Call Back Address: ", callBackAddress);
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         // TODO: unlock send email when ready (commented out sending email because is too annoying for testing)
         // emailModule.sendMail2Host(email, callBackAddress);
-        database.createEvent(Id, {...event});
+        database.createEvent(id, {...req.body});
     }
+    res.json({...req.body});
+});
+
+//handle create event and save event to firebase
+router.put("/", async (req, res)=>{
+    console.log("Request: Update event detail")
+    const origin = (req.get('origin')?req.get('origin'):"http://localhost:3000");
+    const {id, name, date, time, address} = {...req.body};
+    if(id&&name&&date&&time&&address){
+        const firebaseEvent = await database.getEvent(id);
+        console.log("Firebase event: ", firebaseEvent);
+        firebaseEvent.name = name;
+        firebaseEvent.date = date;
+        firebaseEvent.time = time;
+        firebaseEvent.address = address;
+        const callBackAddress = `${origin}/event/${id}`;
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        console.log( "Call Back Address: ", callBackAddress);
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        // TODO: unlock send email when ready (commented out sending email because is too annoying for testing)
+        // emailModule.sendMail2Host(email, callBackAddress);
+        database.createEvent(id, {...firebaseEvent});
+    }
+    res.json({...req.body});
 });
 
 //handle add guest to a specific event
-router.post("/guest", async (req, res)=>{
+router.put("/guest", async (req, res)=>{
+    console.log("Request: Add guest email to event.")
     const origin = req.get('host');
-    const eventId = req.body.Id;
-    const email = req.body.email;
+    const {id, email} = {...req.body};
     const guest = new Guest(email, 0);
     const encryptedEmail = cryptr.encrypt(email);
-    const encryptedEventId = cryptr.encrypt(eventId);
+    const encryptedEventId = cryptr.encrypt(id);
     const callBackAddress = `${origin}/api/event/response/${encryptedEventId}/${encryptedEmail}`;
-    console.log("Guest: ", guest, "eventId", eventId, "Call Back Address; ", callBackAddress);
-    let guestAppended = await database.appendGuest(eventId, {...guest});
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    console.log("Guest accept invite address: ", `${callBackAddress}/1`);
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    console.log("Guest refuse invite address: ", `${callBackAddress}/0`);
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    let guestAppended = await database.appendGuest(id, {...guest});
     // TODO: unlock send email when ready (commented out sending email because is too annoying for testing)
     // emailModule.sendMail2Guest(email, callBackAddress);
     res.end();
@@ -57,17 +85,18 @@ router.post("/guest", async (req, res)=>{
 //handle a guest response to a event
 //email button should be js button that send http request to this router
 router.get("/response/:id/:email/:response?", async (req, res)=>{
-    console.log("Guest response hit!");
-    const eventId = cryptr.decrypt(req.params.id);
+    console.log("Request: Guest responsed to the event.");
+    const id = cryptr.decrypt(req.params.id);
     const email = cryptr.decrypt(req.params.email);
     const response = req.params.response;
-    console.log("Event Id: ", eventId, "Email: ", email);
-    let guestUpdate = await database.updateGuestResponse(eventId, email, response);
+    console.log("Event id: ", id, "Email: ", email);
+    let guestUpdate = await database.updateGuestResponse(id, email, response);
     if(guestUpdate){
         console.log("Guest response update succeeded!");
     }else{
         console.log("Guest response update failed!");
     }
+    res.end();
 });
 
 module.exports = router;

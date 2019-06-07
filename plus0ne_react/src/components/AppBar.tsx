@@ -6,7 +6,7 @@ import { IStore } from "../reducers";
 import { setTheme } from "../actions/themeActions";
 
 
-export interface IAppBarTitleProps {
+interface IAppBarTitleProps {
     lightTheme: boolean,
     changeTheme: any
 }

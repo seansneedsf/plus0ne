@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export interface IThemeColorClassProps {
+interface IThemeColorClassProps {
     themeColorClass?: string
 }
 class ContentContainer extends React.Component<IThemeColorClassProps>{

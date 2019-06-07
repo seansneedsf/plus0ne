@@ -8,7 +8,7 @@ const mapStateToProps = (state: IStore) => ({
     lightTheme: state.theme.light
 });
 
-export interface IGuestResponse {
+interface IGuestResponse {
     message: string,
     lightTheme: boolean
 }

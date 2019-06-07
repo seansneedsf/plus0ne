@@ -13,8 +13,9 @@ import PreviewPic from "./PreviewPic";
 import GuestResponse from "./GuestResponse";
 import HostEdit from "./HostEdit";
 import axios from "axios";
+import {IEvent} from "./Preview";
 
-export interface IUserProps {
+interface IUserProps {
     lightTheme: boolean,
     match: any
 }
@@ -28,13 +29,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 class Preview extends React.Component<IUserProps, {}>{
     state={
-        event:{
-            name:"",
-            date:"",
-            time:"",
-            location:"",
-            email:""
-        },
+        event: {} as IEvent,
         id: this.props.match.params.id 
     }
     componentWillMount(){
@@ -71,7 +66,7 @@ class Preview extends React.Component<IUserProps, {}>{
                         </div>
                         <div className="margin-top-6">
                             <Paper className={`location-container event-detail-item ${this.props.lightTheme ? 'location-light':'location-dark'} `}>
-                                <span className="detail-item-font typographic-color-dark">{this.state.event.location}</span>
+                                <span className="detail-item-font typographic-color-dark">{this.state.event.address}</span>
                             </Paper>  
                         </div>   
                         <div className="margin-top-6">
@@ -81,7 +76,7 @@ class Preview extends React.Component<IUserProps, {}>{
                             <div className="conversations">
                                 <BotMessage 
                                     avatarName="bot"
-                                    message={`Epic hicking trip this weekend. Join soon as spots are filling up fast! (${this.props.match.params.id})`}/>   
+                                    message={`Epic hicking trip this weekend. Join soon as spots are filling up fast!`}/>   
                                 <GuestResponse message="Thanks for the invite!"/>
                             </div>
                             <div className={`conversation-input ${this.props.lightTheme ? 'app-preview-light':'app-preview-dark'}`}>

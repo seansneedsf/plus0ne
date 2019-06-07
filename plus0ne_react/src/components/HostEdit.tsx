@@ -1,6 +1,5 @@
 import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
-// import Avatar from '@material-ui/core/Avatar';
 import Fab from '@material-ui/core/Fab';
 import { connect } from "react-redux";
 import { IStore } from "../reducers";
@@ -38,7 +37,7 @@ class HostEdit extends React.Component<IHostEditProps, {}>{
         this.setState({ inputVal: e.target.value});
     }
     handleKeyDown=(e:any)=>{
-        if(e.key === ENTER_KEY){
+        if(e.key === ENTER_KEY && this.props.handleAddEvent){
             this.props.handleAddEvent(this.state.inputVal);
             this.setState({ inputVal: ''});
         }

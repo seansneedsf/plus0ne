@@ -208,10 +208,10 @@ body{
 .host-message-content-container{
     flex-grow: 1;
 }
-.host-message-content-container .MuiFormControl-root-44{
+.host-message-content-container div{
     width: 100%;
 }
-.host-message-content-container .MuiInputBase-input-71{
+.host-message-content-container div{
     font-size: 12px;
 }
 
@@ -262,6 +262,10 @@ body{
     justify-content: flex-start;
 }
 .title-item{
+    font-size: 36px;
+    font-weight: 600;
+}
+.title-item input{
     font-size: 36px;
     font-weight: 600;
 }
@@ -336,4 +340,34 @@ body{
     z-index: 6;
     left: -24px;
     padding-right: 12px;
+}
+
+.invite-edit-border{
+    border: 1px dashed grey;
+}
+
+.save-cancel-row{
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    left: 0;
+    justify-content: center;
+}
+
+.save-cancel-row button{
+    min-width: 85px;
+    margin: 0 6px 0 6px;
+}
+
+.edit-event-textfield input{
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+}
+.invite-guest-edit-field{
+    width: 100%;
 }
