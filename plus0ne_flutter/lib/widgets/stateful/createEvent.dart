@@ -4,7 +4,6 @@ import 'package:feather_icons_flutter/feather_icons_flutter.dart';
 import 'package:plus0ne/widgets/stateless/message.dart';
 import 'package:plus0ne/widgets/stateful/chat.dart';
 import 'package:plus0ne/widgets/stateless/drawingPage.dart';
-import 'package:plus0ne/assets/graphics/curvePainter.dart';
 
 class CreateEvent extends StatefulWidget{
     CreateEvent({Key key, this.title}) : super(key:key);
@@ -39,12 +38,6 @@ class CreateEventState extends State<CreateEvent> {
                                 color: Theme.of(context).primaryColor,
                                 child: DrawingPage(
                                     height: 65,
-                                    painter: CurvePainter(
-                                        height: 65,
-                                        width: MediaQuery.of(context).size.width,
-                                        canvasColor: new Color(0xFF202B44),
-                                        backgroundColor: new Color(0xFF000A23),
-                                    ),
                                 ),
                             ),
                             Container(

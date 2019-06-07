@@ -2,12 +2,26 @@ import 'package:flutter/material.dart';
 
 enum ThemeKeys {DAY,NIGHT}
 
+class HexColor extends Color {
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
+
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+}
+//TODO: Replace all color to hex color
+
 class Themes{
     static final ThemeData dayTheme = ThemeData(
-        primaryColor: new Color(0xFFFFFFFF),
-        backgroundColor: new Color(0xFF55CCFF),
+        fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
+        primaryColor: HexColor("#55CCFF"),
+        backgroundColor: HexColor("#EEEEEE"),
         primaryIconTheme: IconThemeData(
-            color: new Color(0xFFFFFFFF),
+            color: HexColor("#55CCFF"),
             size: 12.0,
         ),
         accentIconTheme: IconThemeData(
@@ -19,6 +33,19 @@ class Themes{
                 fontSize: 36.0,
                 fontWeight: FontWeight.w600,
                 color: new Color(0xFF000000),
+                backgroundColor: HexColor("#55CCFF")
+            ),
+            subhead: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.w600,
+                color: HexColor("#FFFFFF"),
+                backgroundColor: HexColor("#555555")
+            ),
+            subtitle: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.w600,
+                color: HexColor("#FFFFFF"),
+                backgroundColor: HexColor("#EE4444")
             ),
             body1: TextStyle(
                 fontSize: 12.0,
@@ -34,14 +61,15 @@ class Themes{
         dialogTheme: DialogTheme(
             backgroundColor: new Color(0xFF66BB66),
         ),
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
     );
 
     static final ThemeData nightTheme = ThemeData(
-        primaryColor: new Color(0xFF181F4D),
-        backgroundColor: new Color(0xFF000A23),
+        fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
+        primaryColor: HexColor("#000A23"),
+        backgroundColor: HexColor("#000A23"),
         primaryIconTheme: IconThemeData(
-            color: new Color(0xFFFFFFFF),
+            color: HexColor("#181F4E"),
             size: 12.0,
         ),
         accentIconTheme: IconThemeData(
@@ -53,6 +81,19 @@ class Themes{
                 fontSize: 36.0,
                 fontWeight: FontWeight.w600,
                 color: new Color(0xFFFFFFFF),
+                backgroundColor: HexColor("#000A23")
+            ),
+            subhead: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.w600,
+                color: HexColor("#FFFFFF"),
+                backgroundColor: HexColor("#555555")
+            ),
+            subtitle: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.w600,
+                color: HexColor("#FFFFFF"),
+                backgroundColor: HexColor("#EE4444")
             ),
             body1: TextStyle(
                 fontSize: 12.0,

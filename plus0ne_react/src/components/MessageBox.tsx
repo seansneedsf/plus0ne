@@ -2,7 +2,7 @@ import * as React from 'react';
 import BotMessage from "./BotMessage";
 import UserMessage from "./UserMessage";
 
-export interface IMessageBox{
+interface IMessageBox{
     isBot: boolean,
     message: string
 }

@@ -27,14 +27,14 @@
 .typographic-color-light{
     color: black !important;
 }
-.typographic-color-light .MuiInputBase-input-71{
+.typographic-color-light input{
     color: black !important;
 }
 
 .typographic-color-dark{
     color: white !important;
 }
-.typographic-color-dark .MuiInputBase-input-71{
+.typographic-color-dark input{
     color: white !important;
 }
 
@@ -79,10 +79,16 @@
     background-color: #333333 !important;
 
 }
-.message-container-user-edit .MuiPaper-elevation2-14{
+.message-container-user-edit div{
+    box-shadow: unset !important;
+}
+.message-container-user-edit>div:first-of-type{
     box-shadow: unset !important;
     border: 1.5px dashed grey;
 }
-.message-container-user-edit .MuiAvatar-colorDefault-42{
-    border: 1.5px dashed grey;
+.event-title-light input{
+    color:black!important;
+}
+.event-title-dark input{
+    color:white!important;
 }

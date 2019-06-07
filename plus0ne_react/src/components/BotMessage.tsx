@@ -7,7 +7,7 @@ const mapStateToProps = (state: IStore) => ({
     lightTheme: state.theme.light
 });
 
-export interface IBotMessageProps {
+interface IBotMessageProps {
     message: string,
     lightTheme: boolean,
     avatarName: string

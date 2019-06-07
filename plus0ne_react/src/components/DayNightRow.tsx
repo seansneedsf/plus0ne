@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from "react-redux";
 import { IStore } from "../reducers";
 
-export interface IDayNightRowProps {
+interface IDayNightRowProps {
     lightTheme: boolean
 }
 const mapStateToProps = (state: IStore) => ({

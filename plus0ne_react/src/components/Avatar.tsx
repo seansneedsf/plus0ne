@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 
-export interface IAvatarProps{
+interface IAvatarProps{
     themeColor?: string,
     avatarName: string
 }

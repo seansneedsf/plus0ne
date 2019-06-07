@@ -26,6 +26,7 @@ dependencies:
   font_awesome_flutter: ^8.2.0
   feather_icons_flutter: ^4.7.4
   flutter_dialogflow: ^0.1.0
+  http: ^0.11.3+16
 
 dev_dependencies:
   flutter_test:
@@ -43,11 +44,13 @@ flutter:
   uses-material-design: true
   assets:
     - lib/assets/keys/plus0nefinalproject-eea746d71853.json
-    - lib/assets/icons/plus0ne_Logo.png
-    - lib/assets/graphics/moonlight.png
-    - lib/assets/graphics/sunlight.png
-    - lib/assets/graphics/moonlightHorizon.png
-    - lib/assets/graphics/sunlightHorizon.png
+    - lib/assets/icons/logo.png
+    - lib/assets/icons/day.png
+    - lib/assets/icons/night.png
+    - lib/assets/icons/microphone.png
+    - lib/assets/graphics/sun.png
+    - lib/assets/graphics/moon.png
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
