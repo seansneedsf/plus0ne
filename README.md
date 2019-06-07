@@ -2,7 +2,7 @@
 # PlusOne
 
 # Group Members:
-## Emma, Justin, Sheng  
+## Emma, Sheng  
 ## Stack Choices / Project Design:
 	● Mobile App
 		○ Flutter
