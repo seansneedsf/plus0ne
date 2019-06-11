@@ -7,6 +7,7 @@ const emailModule = require("./emailModule");
 const cryptr = new Cryptr('PLUS_ONE_EMAIL');
 const database = require("./firebaseModule");
 
+
 //hanlde initial request for create event
 router.get("/", (req, res)=>{
     console.log("Request: Get a template event.")
@@ -31,9 +32,10 @@ router.post("/", (req, res)=>{
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         console.log( "Call Back Address: ", callBackAddress);
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        const event = new Event(id, name, date, time, address, email, undefined);
         // TODO: unlock send email when ready (commented out sending email because is too annoying for testing)
         // emailModule.sendMail2Host(email, callBackAddress);
-        database.createEvent(id, {...req.body});
+        database.createEvent(id, {...event});
     }
     res.json({...req.body});
 });

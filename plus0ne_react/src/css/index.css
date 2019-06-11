@@ -1,11 +1,13 @@
-:root{
+:root {
     --app-bar-height: 56px;
     --date-location-box-height: 44px;
 }
+
 @import "containers.css";
 @import "theme.css";
 @import "loader.css";
-.splash-screen{
+
+.splash-screen {
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -18,30 +20,31 @@
     overflow: hidden;
 }
 
-body{
+body {
     margin: 0 !important;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
     overflow-y: scroll;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
-.splash-screen-image{
+
+.splash-screen-image {
     width: 45%;
     max-width: 400px;
     min-width: 150px;
 }
 
-.event-header{
+.event-header {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    width:100%;
+    width: 100%;
     height: 160px;
 }
 
-.event-header-title{
+.event-header-title {
     position: absolute;
     top: calc(100% - 38px);
     font-size: 24px;
@@ -49,19 +52,20 @@ body{
     font-weight: bold;
 }
 
-.event-list-item{
+
+.event-list-item {
     display: flex;
     height: 48px;
 }
 
-.list-item-icon-container{
+.list-item-icon-container {
     flex-basis: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.event-list-detail-container{
+.event-list-detail-container {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -69,32 +73,34 @@ body{
     justify-content: center;
 }
 
-.event-header-image{
+.event-header-image {
     width: 100%;
     filter: blur(3px);
 }
 
-.message-container{
+.message-container {
     height: 92px;
     display: flex;
     align-items: center;
     position: relative;
     margin-bottom: -16px;
 }
-.message-avatar-container{
+
+.message-avatar-container {
     display: flex;
     align-items: center;
     position: absolute;
-    top:6px;
+    top: 6px;
     z-index: 5;
 }
 
-.message-avatar{
+.message-avatar {
     width: 54px;
     height: 54px;
     border: 1px solid black;
 }
-.message-content-container{
+
+.message-content-container {
     width: calc(100% - 72px);
     position: absolute;
     height: 42px;
@@ -103,87 +109,96 @@ body{
     align-items: center;
     padding: 6px 24px 6px 26px;
 }
-.message-content-container-host{
+
+.message-content-container-host {
     justify-content: flex-end;
     border: unset;
 }
-.message-content{
+
+.message-content {
     font-size: 14px;
     word-wrap: break-word;
 }
-.message-content-response{
+
+.message-content-response {
     white-space: nowrap;
 }
 
-.MuiFormControl-marginNormal-96{
+.MuiFormControl-marginNormal-96 {
     margin: 0 !important;
 }
-.home-screen{
+
+.home-screen {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
 }
-.home-intraction-control{
+
+.home-intraction-control {
     height: calc(100vh - 56px);
-    position:absolute;
+    position: absolute;
     top: 56px;
     overflow: hidden;
     overflow-y: scroll;
 }
 
 
-.app-bar-icon-container{
+.app-bar-icon-container {
     width: 54px;
     height: 54px;
     display: flex;
     align-items: center;
 }
 
-.app-title-container{
+.app-title-container {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-.sun-moon-container{
+.sun-moon-container {
     height: 135px;
 
 }
-.curve-container{
+
+.curve-container {
     height: 65px;
 }
-.day-night-row-container{
+
+.day-night-row-container {
     width: 100vw;
     height: 200px;
     display: flex;
     flex-direction: column;
 }
 
-.content-row-container{
+.content-row-container {
     height: calc(100vh - 256px);
     display: flex;
     flex-direction: column;
 }
 
-.greeting-container{
+.greeting-container {
     width: 100%;
     height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.greeting-container>span{
+
+.greeting-container>span {
     font-size: 2em;
     color: white;
 }
 
-.bot-chat-container{
+.bot-chat-container {
     height: calc(100% - 160px);
     overflow: hidden;
-    overflow-y: scroll;   
-    flex-grow: 1; 
+    overflow-y: scroll;
+    flex-grow: 1;
 }
-.user-input-container{
+
+.user-input-container {
     width: 100%;
     height: 80px;
     display: flex;
@@ -191,148 +206,175 @@ body{
 }
 
 
-.host-message-container{
+.host-message-container {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     margin-left: 24px;
 }
-.host-message-avatar-container{
+
+.host-message-avatar-container {
     width: 70px;
     height: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
-.host-message-content-container{
+
+.host-message-content-container {
     flex-grow: 1;
 }
-.host-message-content-container div{
+
+.host-message-content-container div {
     width: 100%;
 }
-.host-message-content-container div{
+
+.host-message-content-container div {
     font-size: 12px;
 }
 
 /* dimensional  */
-.margin-top-6{
+.margin-top-6 {
     margin-top: 6px;
 }
-.margin-bottom-6{
+
+.margin-bottom-6 {
     margin-bottom: 6px;
 }
-.percent-100-width{
+
+.percent-100-width {
     width: 100%;
 }
-.date-time-container{
+
+.date-time-container {
     width: 100%;
     display: flex;
     justify-content: space-between;
     height: var(--date-location-box-height);
 }
-.date-time-item{
+
+.date-time-item {
     width: calc(50% - 6px);
     height: 100%;
 }
-.location-container{
+
+.location-container {
     width: 100%;
     height: var(--date-location-box-height);
 }
-.event-detail-item{
+
+.event-detail-item {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.detail-item-font{
+
+.detail-item-font {
     font-size: 24px;
     font-weight: 600;
 }
 
-.title-container{
+.title-container {
     height: 64px;
     display: flex;
     width: 100%;
     align-items: center;
 }
-.title-center{
+
+.title-center {
     justify-content: center;
 }
-.title-left{
+
+.title-left {
     justify-content: flex-start;
 }
-.title-item{
+
+.title-item {
     font-size: 36px;
     font-weight: 600;
 }
-.title-item input{
+
+.title-item input {
     font-size: 36px;
     font-weight: 600;
 }
-.preview-image-container{
+
+.preview-image-container {
     width: 100%;
     height: 180px;
 }
-.preview-pic-loader-container{
+
+.preview-pic-loader-container {
     height: 100%;
     width: 100%;
 }
-.preview-image{
+
+.preview-image {
     width: 100%;
     height: 100%;
 }
-.hide-preview-image{
+
+.hide-preview-image {
     display: none;
 }
 
-.message-edit-field{
+.message-edit-field {
     left: 0px;
 }
-.edit-avatar-container{
+
+.edit-avatar-container {
     right: 0px;
 }
-.preview-user-eidt-container{
+
+.preview-user-eidt-container {
     display: flex;
     justify-content: flex-end;
 }
-.message-container-user-edit{
+
+.message-container-user-edit {
     min-width: 60%;
     max-width: 60%;
 }
-.message-container-guest-response{
+
+.message-container-guest-response {
     max-width: 72%;
 }
 
-.message-content-container__user-response{
+.message-content-container__user-response {
     left: 0px;
     justify-content: center;
 }
-.message-avatar-container__user-response{
+
+.message-avatar-container__user-response {
     right: 0px;
 }
-.user-message-container{
+
+.user-message-container {
     width: 100%;
     display: flex;
     justify-content: flex-end;
 }
-.message-container__user-response{
+
+.message-container__user-response {
     max-width: 72%;
     min-width: 88px;
     justify-content: center;
 }
 
-.conversation-section{
+.conversation-section {
     height: calc(100% - 357px);
     width: 100%;
     position: relative;
 }
-.conversations{
+
+.conversations {
     height: calc(100% - 80px);
     width: 100%;
     position: absolute;
 }
 
-.conversation-input{
+.conversation-input {
     position: absolute;
     top: calc(100% - 80px);
     height: 80px;
@@ -342,11 +384,11 @@ body{
     padding-right: 12px;
 }
 
-.invite-edit-border{
+.invite-edit-border {
     border: 1px dashed grey;
 }
 
-.save-cancel-row{
+.save-cancel-row {
     position: fixed;
     bottom: 0;
     height: 60px;
@@ -357,17 +399,34 @@ body{
     justify-content: center;
 }
 
-.save-cancel-row button{
+.save-cancel-row button {
     min-width: 85px;
     margin: 0 6px 0 6px;
 }
 
-.edit-event-textfield input{
+.edit-event-textfield input {
     font-size: 24px;
     font-weight: 600;
     text-align: center;
     color: white;
 }
-.invite-guest-edit-field{
+
+.invite-guest-edit-field {
     width: 100%;
+}
+
+.invite-guest-edit-field>div::before {
+    border: unset !important;
+}
+
+.invite-guest-edit-field>div::after {
+    border: unset !important;
+}
+
+.host-message-content-container>div>div::before {
+    border: unset !important;
+}
+
+.host-message-content-container>div>div::after {
+    border: unset !important;
 }

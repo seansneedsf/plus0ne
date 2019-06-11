@@ -33,7 +33,7 @@ class Themes{
                 fontSize: 36.0,
                 fontWeight: FontWeight.w600,
                 color: new Color(0xFF000000),
-                backgroundColor: HexColor("#55CCFF")
+                backgroundColor: HexColor("#EEEEEE")
             ),
             subhead: TextStyle(
                 fontSize: 24.0,
@@ -50,12 +50,14 @@ class Themes{
             body1: TextStyle(
                 fontSize: 12.0,
                 fontWeight: FontWeight.normal,
-                color: new Color(0xFF000000),
+                color: HexColor("#000000"),
+                backgroundColor: HexColor("#DDDDDD")
             ),
             body2: TextStyle(
-                fontSize: 10.0,
+                fontSize: 12.0,
                 fontWeight: FontWeight.normal,
-                color: new Color(0xFF000000),
+                color: HexColor("#FFFFFF"),
+                backgroundColor: HexColor("#66BB66")
             ),
         ),
         dialogTheme: DialogTheme(
@@ -98,12 +100,14 @@ class Themes{
             body1: TextStyle(
                 fontSize: 12.0,
                 fontWeight: FontWeight.normal,
-                color: new Color(0xFFFFFFFF),
+                color: HexColor("#FFFFFF"),
+                backgroundColor: HexColor("#DDDDDD")
             ),
             body2: TextStyle(
-                fontSize: 10.0,
+                fontSize: 12.0,
                 fontWeight: FontWeight.normal,
-                color: new Color(0xFFFFFFFF),
+                color: HexColor("#FFFFFF"),
+                backgroundColor: HexColor("#0A6AA5")
             ),
         ),
         dialogTheme: DialogTheme(
