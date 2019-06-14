@@ -3,7 +3,6 @@ import events from "./eventsReducer";
 import user from "./userReducer";
 import theme from "./themeReducer";
 
-
 export interface IStore{
     user:{
         name: string;

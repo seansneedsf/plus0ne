@@ -27,6 +27,8 @@ dependencies:
   feather_icons_flutter: ^4.7.4
   flutter_dialogflow: ^0.1.0
   http: ^0.11.3+16
+  scoped_model: ^1.0.1
+
 
 dev_dependencies:
   flutter_test:
@@ -45,9 +47,6 @@ flutter:
   assets:
     - lib/assets/keys/plus0nefinalproject-eea746d71853.json
     - lib/assets/icons/logo.png
-    - lib/assets/icons/day.png
-    - lib/assets/icons/night.png
-    - lib/assets/icons/microphone.png
     - lib/assets/graphics/sun.png
     - lib/assets/graphics/moon.png
 
