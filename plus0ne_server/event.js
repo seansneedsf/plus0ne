@@ -1,10 +1,10 @@
 const Cryptr = require('cryptr');
+const cryptr = new Cryptr('PLUS_ONE_EMAIL');
 const express = require('express');
 const router = express.Router();
 const Event = require("./eventM");
 const Guest = require("./guestM");
 const emailModule = require("./emailModule");
-const cryptr = new Cryptr('PLUS_ONE_EMAIL');
 const database = require("./firebaseModule");
 
 
@@ -34,13 +34,13 @@ router.post("/", (req, res)=>{
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         const event = new Event(id, name, date, time, address, email, undefined);
         // TODO: unlock send email when ready (commented out sending email because is too annoying for testing)
-        // emailModule.sendMail2Host(email, callBackAddress);
+        emailModule.sendMail2Host(event, callBackAddress);
         database.createEvent(id, {...event});
     }
     res.json({...req.body});
 });
 
-//handle create event and save event to firebase
+//update create event and save event to firebase
 router.put("/", async (req, res)=>{
     console.log("Request: Update event detail")
     const origin = (req.get('origin')?req.get('origin'):"http://localhost:3000");
@@ -79,8 +79,8 @@ router.put("/guest", async (req, res)=>{
     console.log("Guest refuse invite address: ", `${callBackAddress}/0`);
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     let guestAppended = await database.appendGuest(id, {...guest});
-    // TODO: unlock send email when ready (commented out sending email because is too annoying for testing)
-    // emailModule.sendMail2Guest(email, callBackAddress);
+    const event = await database.getEvent(id);
+    emailModule.sendMail2Guest(event, guest, `${callBackAddress}/1`, `${callBackAddress}/0`);
     res.end();
 });
 
@@ -98,7 +98,15 @@ router.get("/response/:id/:email/:response?", async (req, res)=>{
     }else{
         console.log("Guest response update failed!");
     }
-    res.end();
+    res.send("Thanks for your response!");
+});
+
+//handle pushlish new event details to guests
+router.get("/notify-guests/:id", async (req, res) => {
+    const eventId = req.params.id;
+    const event = await database.getEvent(eventId);
+    const origin = req.get('host');
+    emailModule.sendMail2All(event, origin);
 });
 
 module.exports = router;

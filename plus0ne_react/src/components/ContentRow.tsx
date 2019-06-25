@@ -9,6 +9,7 @@ import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import PreviewMini from "./PreviewMini";
 
 interface IContentRowProps {
     lightTheme: boolean;
@@ -18,6 +19,11 @@ interface IState {
     event: {};
     conversationIdx: number;
     open: boolean;
+    eventName: string;
+    eventAddress: string;
+    eventId: string;
+    eventDate: string;
+    eventTime: string;
 }
 interface IMessage {
     isBot: boolean;
@@ -32,7 +38,12 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
         conversations: [],
         event: {},
         conversationIdx: 0,
-        open: false
+        open: false,
+        eventAddress: "",
+        eventName: "",
+        eventId:"",
+        eventDate:"",
+        eventTime:""
     };
     scrollConversation() {
         const converstaionEle = document.getElementById(
@@ -56,7 +67,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
             case 1:
                 // set event name
                 this.setState(
-                    { event: { ...this.state.event, name: detail } },
+                    { event: { ...this.state.event, name: detail }, eventName: detail },
                     () => {
                         this.setUserResponse(detail);
                     }
@@ -65,7 +76,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
             case 2:
                 // set event date
                 this.setState(
-                    { event: { ...this.state.event, date: detail } },
+                    { event: { ...this.state.event, date: detail }, eventDate: detail },
                     () => {
                         this.setUserResponse(detail);
                     }
@@ -74,7 +85,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
             case 3:
                 // set event time
                 this.setState(
-                    { event: { ...this.state.event, time: detail } },
+                    { event: { ...this.state.event, time: detail }, eventTime: detail},
                     () => {
                         this.setUserResponse(detail);
                     }
@@ -83,7 +94,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
             case 4:
                 // set address for the event
                 this.setState(
-                    { event: { ...this.state.event, address: detail } },
+                    { event: { ...this.state.event, address: detail }, eventAddress: detail },
                     () => {
                         this.setUserResponse(detail);
                     }
@@ -94,14 +105,12 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
                 this.setState(
                     { event: { ...this.state.event, email: detail } },
                     () => {
-                        // TODO: send response to server
                         this.saveEvent();
                         this.setUserResponse(detail);
                         this.handleOpen();
                     }
                 );
                 break;
-                this.saveEvent();
         }
     };
     saveEvent = () => {
@@ -149,7 +158,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
         })
             .then(result => {
                 console.log("Event: ", result.data.event);
-                this.setState({ event: result.data.event });
+                this.setState({ event: result.data.event, eventId: result.data.event.id });
             })
             .catch(err => {
                 console.log("error", err);
@@ -199,6 +208,15 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
                             key={`conversation-${idx}`}
                         />
                     ))}
+                    {this.state.conversationIdx===6 ?
+                        <PreviewMini
+                            name= { this.state.eventName   } 
+                            address={ this.state.eventAddress }
+                            eventId ={ this.state.eventId }
+                            eventDate = {this.state.eventDate }
+                            eventTime = {this.state.eventTime }
+                        /> : null
+                    }
                 </div>
                 <HostEdit
                     placeHolder="Type or tell me what you want your event to be called."
@@ -217,8 +235,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
                     }}
                     message={
                         <span id="message-id">
-                            Congurations! You are all set for your event. Please
-                            check you email address to verify.
+                            Congurations! You are all set for your event. Click on the preview for more details.
                         </span>
                     }
                     action={[
