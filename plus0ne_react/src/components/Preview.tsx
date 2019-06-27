@@ -11,7 +11,6 @@ import { IStore } from "../reducers";
 import PreviewPic from "./PreviewPic";
 import InviteEdit from "./InviteEditBox";
 import axios from "axios";
-import Button from "@material-ui/core/Button";
 import Input from "@material-ui/core/Input";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -28,6 +27,7 @@ interface IState {
     editTextLabel: string;
     open: boolean;
     notificationText: string;
+    readOnly: boolean;
 }
 export interface IEvent {
     name: string;
@@ -50,7 +50,8 @@ class Preview extends React.Component<IUserProps, IState> {
         id: this.props.match.params.id,
         editTextLabel: "",
         open: false,
-        notificationText: ""
+        notificationText: "",
+        readOnly: true
     };
     showNotification = (text: string) => {
         this.setState({ open: true, notificationText: text });
@@ -58,6 +59,11 @@ class Preview extends React.Component<IUserProps, IState> {
     handleClose = () => {
         this.setState({ open: false });
     };
+    switchEditEvent = () => {
+        this.setState({readOnly: false}, ()=>{
+            this.showNotification("You can edit your event now!");
+        });
+    }
     componentWillMount() {
         const eventId = this.state.id;
         axios
@@ -94,7 +100,7 @@ class Preview extends React.Component<IUserProps, IState> {
             .put(`${apiOrigin}/event`, { ...this.state.event })
             .then(result => {
                 console.log(result.data);
-                this.setState({ eventRef: { ...this.state.event } }, () => {
+                this.setState({ eventRef: { ...this.state.event }, readOnly: true }, () => {
                     this.showNotification("Event detail updated!");
                 });
             })
@@ -103,15 +109,25 @@ class Preview extends React.Component<IUserProps, IState> {
             });
     };
     handleCancel = () => {
-        this.setState({ event: { ...this.state.eventRef } }, () => {
-            this.showNotification("Reset event details.");
+        this.setState({ event: { ...this.state.eventRef }, readOnly: true }, () => {
+            this.showNotification("Event detail reset!");
         });
     };
+    handleNotifyGuests = () =>{
+        const eventId = this.state.id;
+        axios.get(`${apiOrigin}/event/notify-guests/${eventId}`);
+    }
     render() {
         return (
             <MainContainer>
                 <AppBarContainer>
-                    <AppBar />
+                    <AppBar 
+                        showRightIcon={true} 
+                        saveChanges={this.handleSave}
+                        cancelChanges={this.handleCancel}
+                        readOnly={this.state.readOnly}
+                        handleRightIconClick={this.switchEditEvent}
+                        handleNotifyGuests={this.handleNotifyGuests}/>
                 </AppBarContainer>
                 <ContentContainer
                     themeColorClass={`${
@@ -143,6 +159,7 @@ class Preview extends React.Component<IUserProps, IState> {
                                     value={this.state.event.date}
                                     disableUnderline={true}
                                     className={"edit-event-textfield"}
+                                    readOnly={this.state.readOnly}
                                     onChange={e =>
                                         this.handleTextFieldChange(e, "date")
                                     }
@@ -158,6 +175,7 @@ class Preview extends React.Component<IUserProps, IState> {
                                 <Input
                                     value={this.state.event.time}
                                     disableUnderline={true}
+                                    readOnly={this.state.readOnly}
                                     className={"edit-event-textfield"}
                                     onChange={e =>
                                         this.handleTextFieldChange(e, "time")
@@ -176,6 +194,7 @@ class Preview extends React.Component<IUserProps, IState> {
                                 <Input
                                     value={this.state.event.address}
                                     disableUnderline={true}
+                                    readOnly={this.state.readOnly}
                                     className={"edit-event-textfield"}
                                     onChange={e =>
                                         this.handleTextFieldChange(e, "address")
@@ -190,6 +209,7 @@ class Preview extends React.Component<IUserProps, IState> {
                                         ? "event-title-light"
                                         : "event-title-dark"
                                 }`}
+                                readOnly={this.state.readOnly}
                                 value={this.state.event.name}
                                 disableUnderline={true}
                                 onChange={e =>
@@ -208,30 +228,6 @@ class Preview extends React.Component<IUserProps, IState> {
                                 message={this.state.editTextLabel}
                                 eventId={this.state.id}
                             />
-                        </div>
-                        <div
-                            className="save-cancel-row"
-                            style={{
-                                display: `${
-                                    JSON.stringify(this.state.eventRef) ===
-                                    JSON.stringify(this.state.event)
-                                        ? "none"
-                                        : "flex"
-                                }`
-                            }}
-                        >
-                            <Button
-                                variant="contained"
-                                onClick={this.handleSave}
-                            >
-                                Save
-                            </Button>
-                            <Button
-                                variant="contained"
-                                onClick={this.handleCancel}
-                            >
-                                Cancel
-                            </Button>
                         </div>
                     </PaddingContainer>
                 </ContentContainer>

@@ -16,6 +16,15 @@ class BotMessage extends React.Component<IBotMessageProps, {}>{
     static defaultProps = {
         avatarName: "botCheck"
     };
+    state={
+        typing: true
+    }
+    componentDidMount(){
+        setTimeout(() => {
+            this.setState({typing: false})
+        }, 1000);
+    }
+
     render(){
         return(
             <div className="message-container">
@@ -25,9 +34,18 @@ class BotMessage extends React.Component<IBotMessageProps, {}>{
                         avatarName={this.props.avatarName}
                     />
                 </div>
-                <Paper className={`message-content-container ${this.props.lightTheme ? 'message-content-light' : 'message-content-dark'}`}>
-                    <span className="message-content" style={{'color':'white'}}>{ this.props.message }</span>
-                </Paper>
+                {
+                    this.state.typing ?
+                    <div className="typing-indicator">
+                        <span/>
+                        <span/>
+                        <span/>
+                    </div>
+                    :
+                    <Paper className={`message-content-container ${this.props.lightTheme ? 'message-content-light' : 'message-content-dark'}`}>
+                        <span className="message-content" style={{'color':'white'}}>{ this.props.message }</span>
+                    </Paper>
+                }
             </div>
         );
     }
