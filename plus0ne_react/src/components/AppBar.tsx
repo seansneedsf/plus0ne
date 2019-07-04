@@ -52,11 +52,11 @@ class HeaderAppBar extends React.Component<IAppBarTitleProps, {}> {
                                    {
                                        this.props.readOnly ?
                                        <div className="app-bar__edit-event">
-                                            <IconButton>
-                                                <Publish onClick={this.props.handleNotifyGuests}/> 
+                                            <IconButton onClick={this.props.handleNotifyGuests}>
+                                                <Publish/> 
                                             </IconButton>
-                                           <IconButton>
-                                                <BorderColor onClick={this.props.handleRightIconClick}/> 
+                                           <IconButton onClick={this.props.handleRightIconClick}>
+                                                <BorderColor/> 
                                             </IconButton>
                                         </div>
                                         :

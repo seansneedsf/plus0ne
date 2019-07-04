@@ -1,0 +1,60 @@
+.invite-guest__container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.MuiDialog-paperWidthXs{
+    max-width: 500px;
+    min-width: 350px;
+    height: 60vh;
+}
+
+.invite-guest__input-container{
+    height: 40px;
+}
+
+.invite-guest__input-container .MuiInputBase-root{
+    width: 100%;
+}
+.invite-guest__guest-detail-container{
+    padding: 12px 0 12px 0;
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% + 48px);
+    margin-left: -24px;
+}
+.invite-guest__guest-detail-container .MuiAvatar-root{
+    display: inline-flex;
+    margin: 3px;
+}
+.MuiTooltip-popper{
+    margin-top: -18px;
+}
+.guest-response__container{
+    display: flex;
+    align-items: center;
+    padding: 0 6px 0 6px;
+    width: calc(100% - 48px);
+    padding: 0 24px 0 24px;
+}
+.guest-response__container .email-address{
+    flex-grow: 1;
+    padding-left: 12px;
+}
+.guest-response__container .status{
+    width: 40px;
+}
+.MuiDialogActions-root{
+    justify-content: space-around!important;
+}
+.invite-guest__dialog{
+    width:100%;
+    display: flex;
+    justify-content: center;
+}
+.invite-guest__dialog>.MuiButtonBase-root{
+    width: 100%;
+    height: 100%;
+}

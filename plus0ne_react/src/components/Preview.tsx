@@ -15,6 +15,12 @@ import Input from "@material-ui/core/Input";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 interface IUserProps {
     lightTheme: boolean;
@@ -28,6 +34,7 @@ interface IState {
     open: boolean;
     notificationText: string;
     readOnly: boolean;
+    openDialog: boolean;
 }
 export interface IEvent {
     name: string;
@@ -51,7 +58,8 @@ class Preview extends React.Component<IUserProps, IState> {
         editTextLabel: "",
         open: false,
         notificationText: "",
-        readOnly: true
+        readOnly: true,
+        openDialog: false,
     };
     showNotification = (text: string) => {
         this.setState({ open: true, notificationText: text });
@@ -64,6 +72,10 @@ class Preview extends React.Component<IUserProps, IState> {
             this.showNotification("You can edit your event now!");
         });
     }
+    handleDialogClose = () => {
+        this.setState({openDialog: false})
+    }
+
     componentWillMount() {
         const eventId = this.state.id;
         axios
@@ -96,8 +108,7 @@ class Preview extends React.Component<IUserProps, IState> {
         this.setState({ event: { ...oldEvent } });
     };
     handleSave = () => {
-        axios
-            .put(`${apiOrigin}/event`, { ...this.state.event })
+        axios.put(`${apiOrigin}/event`, { ...this.state.event })
             .then(result => {
                 console.log(result.data);
                 this.setState({ eventRef: { ...this.state.event }, readOnly: true }, () => {
@@ -114,8 +125,12 @@ class Preview extends React.Component<IUserProps, IState> {
         });
     };
     handleNotifyGuests = () =>{
-        const eventId = this.state.id;
-        axios.get(`${apiOrigin}/event/notify-guests/${eventId}`);
+        this.setState({openDialog: true});
+    }
+    handleYes = () =>{
+        this.setState({openDialog: false}, ()=>{
+            axios.get(`${apiOrigin}/event/notify-guests/${this.state.id}`);
+        });
     }
     render() {
         return (
@@ -141,10 +156,11 @@ class Preview extends React.Component<IUserProps, IState> {
                             message={
                                 "Here’s your preview! You can customize it to your liking. Then, invite your first guest!"
                             }
+                            messageDelay={0}
                         />
                         <div className="margin-top-6">
                             <div className="preview-image-container">
-                                <PreviewPic />
+                                <PreviewPic event={this.state.event}/>
                             </div>
                         </div>
                         <div className="margin-top-6 date-time-container">
@@ -222,10 +238,10 @@ class Preview extends React.Component<IUserProps, IState> {
                             message={
                                 "Epic hicking trip this weekend. Join soon as spots are filling up fast!"
                             }
+                            messageDelay={0}
                         />
                         <div className="margin-top-6 preview-user-eidt-container">
                             <InviteEdit
-                                message={this.state.editTextLabel}
                                 eventId={this.state.id}
                             />
                         </div>
@@ -258,6 +274,24 @@ class Preview extends React.Component<IUserProps, IState> {
                         </IconButton>
                     ]}
                 />
+                <Dialog
+                    open={this.state.openDialog}
+                    onClose={this.handleDialogClose}>
+                    <DialogTitle>{"Comfirm Send Notification"}</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText>
+                        You are about to send notifications to your guests on the event update. 
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={this.handleDialogClose}>
+                        No
+                    </Button>
+                    <Button onClick={this.handleYes}>
+                        Yes
+                    </Button>
+                    </DialogActions>
+                </Dialog>
             </MainContainer>
         );
     }
