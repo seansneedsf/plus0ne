@@ -1,11 +1,9 @@
 .app-bar-light {
     background-color: #55CCFF !important;
 }
-
 .app-bar-dark {
     background-color: #000A23 !important;
 }
-
 .app-preview-dark {
     background-color: #000A23 !important;
 }
@@ -109,4 +107,30 @@
 
 .event-title-dark input {
     color: white !important;
+}
+
+.light-theme__dialog .MuiPaper-root{
+    background-color: #ffffff !important
+}
+.dark-theme__dialog .MuiPaper-root{
+    background-color: #000A23 !important
+}
+.light-theme__dialog .MuiTypography-root, input{
+    color: black !important
+}
+.light-theme__dialog input{
+    color: black !important
+}
+.dark-theme__dialog .MuiTypography-root, input{
+    color: white !important
+}
+.dark-theme__dialog input{
+    color: white !important
+}
+
+.dark-theme__dialog .status{
+    color: white !important
+}
+.light-theme__dialog .status{
+    color: black !important
 }

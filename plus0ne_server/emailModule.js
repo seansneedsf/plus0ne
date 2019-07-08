@@ -26,6 +26,7 @@ const sendMail2Host = (event, manageEventURL) => {
     email2hostLocal = email2hostLocal.replace("%TIME%", event.time);
     email2hostLocal = email2hostLocal.replace("%ADDRESS%", event.address);
     email2hostLocal = email2hostLocal.replace("%NAME%", event.name);
+    email2hostLocal = email2hostLocal.replace("%IMAGEURI%", (event.customImage?event.customImage:"https://source.unsplash.com/335x180/?nature"));
     mailOptions.to = event.email;
     mailOptions.html = email2hostLocal;
     sendEmail(mailOptions);
@@ -39,6 +40,7 @@ const sendMail2Guest = (event, guest, acceptURL, declineURL) => {
     email2guestLocal = email2guestLocal.replace("%NAME%", event.name);
     email2guestLocal = email2guestLocal.replace("%ACCEPT_URL%", acceptURL);
     email2guestLocal = email2guestLocal.replace("%DECLINE_URL%", declineURL);
+    email2guestLocal = email2guestLocal.replace("%IMAGEURI%", (event.customImage?event.customImage:"https://source.unsplash.com/335x180/?nature"));
     mailOptions.to = guest.email;
     mailOptions.html = email2guestLocal;
     sendEmail(mailOptions);
@@ -52,6 +54,7 @@ const sendMail2All = ( event, origin ) =>{
     email2guestLocal = email2guestLocal.replace("%TIME%", event.time);
     email2guestLocal = email2guestLocal.replace("%ADDRESS%", event.address);
     email2guestLocal = email2guestLocal.replace("%NAME%", event.name);
+    email2guestLocal = email2guestLocal.replace("%IMAGEURI%", (event.customImage?event.customImage:"https://source.unsplash.com/335x180/?nature"));
     const eventId = event.id;
     const encryptedEventId = cryptr.encrypt(eventId);
     const guests = event.guests;

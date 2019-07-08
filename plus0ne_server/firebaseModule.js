@@ -1,5 +1,7 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("./plus0nefinalproject-firebase-adminsdk-7r3ex-e79db170d1.json");
+serviceAccount.private_key_id = process.env.FIREBASE_PRIVATE_KEY_ID; 
+serviceAccount.private_key = process.env.FIREBASE_PRIVATE_KEY;
 const DOCUMENT = "events";
 const initialDatabase = () =>{
     admin.initializeApp({

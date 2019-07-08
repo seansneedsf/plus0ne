@@ -1,5 +1,4 @@
 import * as React from "react";
-import HostEdit from "./HostEdit";
 import { connect } from "react-redux";
 import { IStore } from "../reducers";
 import PaddingContainer from "./containers/PaddingContainer";
@@ -10,6 +9,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import PreviewMini from "./PreviewMini";
+import InputField from "./InputField";
 
 interface IContentRowProps {
     lightTheme: boolean;
@@ -24,6 +24,8 @@ interface IState {
     eventId: string;
     eventDate: string;
     eventTime: string;
+    inputType: string;
+    showMiniPreview: boolean;
 }
 interface IMessage {
     isBot: boolean;
@@ -43,7 +45,9 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
         eventName: "",
         eventId:"",
         eventDate:"",
-        eventTime:""
+        eventTime:"",
+        inputType: "name",
+        showMiniPreview: false,
     };
     scrollConversation() {
         const converstaionEle = document.getElementById(
@@ -67,7 +71,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
             case 1:
                 // set event name
                 this.setState(
-                    { event: { ...this.state.event, name: detail }, eventName: detail },
+                    { event: { ...this.state.event, name: detail }, eventName: detail, inputType: "start_date" },
                     () => {
                         this.setUserResponse(detail);
                     }
@@ -76,7 +80,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
             case 2:
                 // set event date
                 this.setState(
-                    { event: { ...this.state.event, date: detail }, eventDate: detail },
+                    { event: { ...this.state.event, date: detail }, eventDate: detail, inputType: "end_date" },
                     () => {
                         this.setUserResponse(detail);
                     }
@@ -85,7 +89,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
             case 3:
                 // set event time
                 this.setState(
-                    { event: { ...this.state.event, time: detail }, eventTime: detail},
+                    { event: { ...this.state.event, time: detail }, eventTime: detail,  inputType: "address" },
                     () => {
                         this.setUserResponse(detail);
                     }
@@ -94,7 +98,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
             case 4:
                 // set address for the event
                 this.setState(
-                    { event: { ...this.state.event, address: detail }, eventAddress: detail },
+                    { event: { ...this.state.event, address: detail }, eventAddress: detail,  inputType: "email"  },
                     () => {
                         this.setUserResponse(detail);
                     }
@@ -146,7 +150,13 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
         });
     }
     handleOpen = () => {
-        this.setState({ open: true });
+        this.setState({ open: true }, ()=>{
+            setTimeout(() => {
+                this.setState({showMiniPreview: true}, ()=>{
+                    this.scrollConversation();
+                })
+            }, 1000);
+        });  
     };
     handleClose = () => {
         this.setState({ open: false });
@@ -208,7 +218,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
                             key={`conversation-${idx}`}
                         />
                     ))}
-                    {this.state.conversationIdx===6 ?
+                    {this.state.conversationIdx===6 && this.state.showMiniPreview?
                         <PreviewMini
                             name= { this.state.eventName   } 
                             address={ this.state.eventAddress }
@@ -218,9 +228,9 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
                         /> : null
                     }
                 </div>
-                <HostEdit
-                    placeHolder="Type or tell me what you want your event to be called."
-                    handleAddEvent={this.setEventDetail}
+                <InputField
+                    type={this.state.inputType}
+                    setUserInput={this.setEventDetail}
                 />
                 <Snackbar
                     anchorOrigin={{

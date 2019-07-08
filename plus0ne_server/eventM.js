@@ -9,5 +9,6 @@ module.exports = class Event{
         this.email = email;
         this.guests = guests;
         this.created = new Date(Date.now());
+        this.customImage = '';
     }
 }

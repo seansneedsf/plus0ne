@@ -53,7 +53,7 @@ class Preview extends React.Component<IUserProps, {}>{
                     <PaddingContainer>
                         <div className="margin-top-6">
                             <div className="preview-image-container">
-                                <PreviewPic/>
+                                <PreviewPic event={this.state.event} noUpload={true}/>
                             </div>
                         </div>    
                         <div className="margin-top-6 date-time-container">

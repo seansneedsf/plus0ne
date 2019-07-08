@@ -8,13 +8,15 @@ const mapStateToProps = (state: IStore) => ({
 });
 
 interface IBotMessageProps {
-    message: string,
-    lightTheme: boolean,
-    avatarName: string
+    message: string;
+    lightTheme: boolean;
+    avatarName: string;
+    messageDelay?: number
 }
 class BotMessage extends React.Component<IBotMessageProps, {}>{
     static defaultProps = {
-        avatarName: "botCheck"
+        avatarName: "botCheck",
+        messageDelay: 1000
     };
     state={
         typing: true
@@ -22,7 +24,7 @@ class BotMessage extends React.Component<IBotMessageProps, {}>{
     componentDidMount(){
         setTimeout(() => {
             this.setState({typing: false})
-        }, 1000);
+        }, this.props.messageDelay);
     }
 
     render(){

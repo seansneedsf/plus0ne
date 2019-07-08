@@ -19,7 +19,6 @@ const ENTER_KEY = "Enter";
 class HostEdit extends React.Component<IHostEditProps, {}>{
     public static defaultProps = {
         placeHolder:'',
-        // handleChange: null,
         type:'text'
     };
     state={

@@ -114,7 +114,7 @@ const email2host=`
 			</div>
 			<div class="preview-image-container">
 				<div class="mdc-card">
-					<img src="https://source.unsplash.com/335x180/?nature" class="preview-image"/>
+					<img src="%IMAGEURI%" class="preview-image"/>
 				</div>
 			</div>
 			<div class="date-time-address-container">
@@ -273,7 +273,7 @@ const email2guest=`
 			</div>
 			<div class="preview-image-container">
 				<div class="mdc-card">
-					<img src="https://source.unsplash.com/335x180/?nature" class="preview-image"/>
+					<img src="%IMAGEURI%" class="preview-image"/>
 				</div>
 			</div>
 			<div class="date-time-address-container">
