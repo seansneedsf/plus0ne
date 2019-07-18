@@ -14,8 +14,9 @@ const initialDatabase = () =>{
 const database = initialDatabase();
 
 const createEvent = (eventId, eventDetail) => {
-    database.collection(DOCUMENT).doc(eventId).set(eventDetail).then(()=>{
+    database.collection("events").doc(eventId).set(eventDetail).then(()=>{
         console.log("Document successfully written!");
+        return;
     }).catch((error)=>{
         console.error("Error writing document: ", error);
     });
@@ -30,9 +31,10 @@ async function getEvent(eventId){
                 event = result.data();
             }
             resolve();
+            return;
         }).catch(err=>{
             console.log("Error retrieving:", err);
-            reject();
+            reject(error);
         })
     });
     return  event;
@@ -54,9 +56,10 @@ async function appendGuest(eventId, guest){
             appened= true;
             console.log("Document successfully written!");
             resolve();
+            return;
         }).catch((error)=>{
             console.error("Error writing document: ", error);
-            reject();
+            reject(error);
         });
     });
     return  appened;
@@ -76,9 +79,10 @@ async function updateGuestResponse(eventId, email, response){
                 appened= true;
                 console.log("Document successfully written!");
                 resolve();
+                return;
             }).catch((error)=>{
                 console.error("Error writing document: ", error);
-                reject();
+                reject(error);
             });
         });
     return true;

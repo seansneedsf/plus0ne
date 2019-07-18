@@ -1,6 +1,4 @@
 import { combineReducers } from "redux";
-import events from "./eventsReducer";
-import user from "./userReducer";
 import theme from "./themeReducer";
 
 export interface IStore{
@@ -14,7 +12,5 @@ export interface IStore{
     }
 }
 export default combineReducers({
-    events,
-    user,
     theme,
 });

@@ -1,3 +1,4 @@
+const functions = require('firebase-functions');
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
@@ -6,9 +7,9 @@ const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
 dotenv.config();
 
+app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(fileUpload());
 app.use(cors());
 
 //bot router handler
@@ -18,7 +19,4 @@ app.use("/api/dialog", botRouter);
 //event router handler
 const eventRouter = require("./event");
 app.use("/api/event", eventRouter);
-
-app.listen(process.env.EXPRESS_PORT, () => {
-    console.log("Listen to Port: ", process.env.EXPRESS_PORT);
-});
+exports.app = functions.https.onRequest(app);

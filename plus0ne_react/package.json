@@ -15,6 +15,7 @@
     "axios": "^0.18.1",
     "browser-image-compression": "^1.0.5",
     "date-fns": "^2.0.0-alpha.37",
+    "dateformat": "^3.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
@@ -25,6 +26,7 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
+    "postbuild": "rm -r ../plus0ne_hosting/public && mv build ../plus0ne_hosting && mv ../plus0ne_hosting/build ../plus0ne_hosting/public",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },

@@ -37,7 +37,7 @@ class PreviewPic extends React.Component<IPreviewPic, {}>{
                     this.props.noUpload ?
                     null
                     :
-                    <div>
+                    <div className="preview-pic__custom-pic-selector">
                         <Fab style={{'width':'44px','height':'44px'}} 
                             onClick={this.handleClickOpen}
                         > 

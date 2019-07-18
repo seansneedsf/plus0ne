@@ -10,9 +10,14 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import PreviewMini from "./PreviewMini";
 import InputField from "./InputField";
+import { API_ORIGIN } from "../globals";
 
 interface IContentRowProps {
     lightTheme: boolean;
+}
+interface IStartEndDateTime{
+    startDateTime: string;
+    endDateTime: string;
 }
 interface IState {
     conversations: IMessage[];
@@ -22,10 +27,12 @@ interface IState {
     eventName: string;
     eventAddress: string;
     eventId: string;
-    eventDate: string;
-    eventTime: string;
+    dateTime: IStartEndDateTime;
     inputType: string;
     showMiniPreview: boolean;
+    formatedStartDate: string;
+    formatedEndDate: string;
+    takeUserInput: boolean;
 }
 interface IMessage {
     isBot: boolean;
@@ -34,7 +41,6 @@ interface IMessage {
 const mapStateToProps = (state: IStore) => ({
     lightTheme: state.theme.light
 });
-const apiOrigin = "http://localhost:8000/api";
 class ContentRow extends React.Component<IContentRowProps, IState> {
     state: IState = {
         conversations: [],
@@ -44,10 +50,12 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
         eventAddress: "",
         eventName: "",
         eventId:"",
-        eventDate:"",
-        eventTime:"",
+        dateTime: {} as IStartEndDateTime,
         inputType: "name",
         showMiniPreview: false,
+        formatedStartDate: "",
+        formatedEndDate: "",
+        takeUserInput: true
     };
     scrollConversation() {
         const converstaionEle = document.getElementById(
@@ -63,39 +71,38 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
             this.getNextDialog();
         });
     };
-    setEventDetail = (detail: string) => {
-        if (!detail.trim().length) {
-            return;
+    setEventDetail = (detail: any) => {
+        if (typeof detail === "string" ) {
+            if(!detail.trim().length){
+                return;
+            }
         }
         switch (this.state.conversationIdx) {
             case 1:
                 // set event name
                 this.setState(
-                    { event: { ...this.state.event, name: detail }, eventName: detail, inputType: "start_date" },
+                    { event: { ...this.state.event, name: detail }, eventName: detail, inputType: "date_picker" },
                     () => {
                         this.setUserResponse(detail);
                     }
                 );
                 break;
             case 2:
-                // set event date
+                
+                // set event time
                 this.setState(
-                    { event: { ...this.state.event, date: detail }, eventDate: detail, inputType: "end_date" },
+                    { event: { ...this.state.event, startDateTime: detail.startDate , endDateTime: detail.endDate }, dateTime: detail,  inputType: "address" },
                     () => {
-                        this.setUserResponse(detail);
+                        const dateFormat = require('dateformat');
+                        const startDateTime = dateFormat(detail.startDate, "mmmm dS, h:MM TT");
+                        const endDateTime = dateFormat(detail.endDate, "mmmm dS, h:MM TT");
+                        this.setState({formatedStartDate: startDateTime, formatedEndDate: endDateTime}, ()=>{
+                            this.setUserResponse(`${startDateTime} - ${endDateTime}`);
+                        });
                     }
                 );
                 break;
             case 3:
-                // set event time
-                this.setState(
-                    { event: { ...this.state.event, time: detail }, eventTime: detail,  inputType: "address" },
-                    () => {
-                        this.setUserResponse(detail);
-                    }
-                );
-                break;
-            case 4:
                 // set address for the event
                 this.setState(
                     { event: { ...this.state.event, address: detail }, eventAddress: detail,  inputType: "email"  },
@@ -104,34 +111,44 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
                     }
                 );
                 break;
-            case 5:
+            case 4:
                 // set host email
                 this.setState(
                     { event: { ...this.state.event, email: detail } },
                     () => {
-                        this.saveEvent();
                         this.setUserResponse(detail);
-                        this.handleOpen();
+                        this.saveEvent().then(
+                            ()=>{
+                                this.setState({takeUserInput: false});
+                            }
+                        );
                     }
                 );
                 break;
         }
     };
     saveEvent = () => {
-        axios
-            .post(`${apiOrigin}/event`, { ...this.state.event })
+        return new Promise((resolve, reject) =>{
+            axios
+            .post(`${API_ORIGIN}/event`, { ...this.state.event })
             .then(result => {
-                console.log(result.data);
+                setTimeout(() => {
+                    this.handleOpen();
+                    resolve();
+                }, 2000);
             })
             .catch(error => {
-                console.log("error", error);
+                console.error("Save event error: ", error);
+                reject();
             });
+        })
+        
     };
     getNextDialog() {
         const newConversationIdx = this.state.conversationIdx + 1;
         this.setState({ conversationIdx: newConversationIdx }, () => {
             axios
-                .get(`${apiOrigin}/dialog/${newConversationIdx}`)
+                .get(`${API_ORIGIN}/dialog/${newConversationIdx}`)
                 .then((result: any) => {
                     const conversations = [...this.state.conversations];
                     conversations.push({
@@ -145,7 +162,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
                     }, 120);
                 })
                 .catch(error => {
-                    console.log("Error", error);
+                    console.log("Get next conversation error: ", error);
                 });
         });
     }
@@ -155,7 +172,7 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
                 this.setState({showMiniPreview: true}, ()=>{
                     this.scrollConversation();
                 })
-            }, 1000);
+            }, 2000);
         });  
     };
     handleClose = () => {
@@ -163,18 +180,17 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
     };
     componentWillMount() {
         axios({
-            url: `${apiOrigin}/event`,
+            url: `${API_ORIGIN}/event`,
             method: "get"
         })
             .then(result => {
-                console.log("Event: ", result.data.event);
                 this.setState({ event: result.data.event, eventId: result.data.event.id });
             })
-            .catch(err => {
-                console.log("error", err);
+            .catch(error => {
+                console.error("Get event error: ", error);
             });
         axios
-            .get(`${apiOrigin}/dialog/${this.state.conversationIdx}`)
+            .get(`${API_ORIGIN}/dialog/${this.state.conversationIdx}`)
             .then((result: any) => {
                 const conversations = [...this.state.conversations];
                 conversations.push({
@@ -186,14 +202,14 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
                 });
             })
             .catch(error => {
-                console.log("Error", error);
+                console.error("Get conversation error: ", error);
             });
     }
     componentDidMount() {
         this.scrollConversation();
         setTimeout(() => {
             this.getNextDialog();
-        }, 200);
+        }, 2000);
     }
     render() {
         return (
@@ -218,20 +234,25 @@ class ContentRow extends React.Component<IContentRowProps, IState> {
                             key={`conversation-${idx}`}
                         />
                     ))}
-                    {this.state.conversationIdx===6 && this.state.showMiniPreview?
+                    {this.state.conversationIdx===5 && this.state.showMiniPreview?
                         <PreviewMini
                             name= { this.state.eventName   } 
                             address={ this.state.eventAddress }
                             eventId ={ this.state.eventId }
-                            eventDate = {this.state.eventDate }
-                            eventTime = {this.state.eventTime }
+                            eventDate = {this.state.formatedStartDate }
+                            eventTime = {this.state.formatedEndDate }
                         /> : null
                     }
                 </div>
-                <InputField
-                    type={this.state.inputType}
-                    setUserInput={this.setEventDetail}
-                />
+                {
+                    this.state.takeUserInput ?
+                        <InputField
+                            type={this.state.inputType}
+                            setUserInput={this.setEventDetail}
+                        />
+                        :
+                        null
+                }
                 <Snackbar
                     anchorOrigin={{
                         vertical: "bottom",

@@ -52,3 +52,31 @@
 .input-field-container .MuiSnackbar-root{
     left: 0px;
 }
+
+.create-event__input-submit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 65px;
+    color: white;
+}
+.create-event__input-submit .MuiFab-label{
+    color: white;
+}
+
+.input-field__date-pickers{
+    flex-grow: 1;
+    display: flex;
+}
+.input-field__date-pickers > div{
+    flex-grow: 1;
+}
+.input-field__date-pickers p{
+    display: none;
+}
+.input-field__date-pickers .MuiInputBase-root{
+    height: 100%;
+}
+.input-field__date-pickers input{
+    height: calc(100% - 12px);
+}

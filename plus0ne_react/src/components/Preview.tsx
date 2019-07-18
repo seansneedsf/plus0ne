@@ -3,6 +3,9 @@ import MainContainer from "./containers/MainContainer";
 import AppBarContainer from "./containers/AppBarContainer";
 import ContentContainer from "./containers/ContentContainer";
 import PaddingContainer from "./containers/PaddingContainer";
+import {  DateTimePicker } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import AppBar from "./AppBar";
 import BotMessage from "./BotMessage";
 import Paper from "@material-ui/core/Paper";
@@ -21,6 +24,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { API_ORIGIN } from "../globals";
 
 interface IUserProps {
     lightTheme: boolean;
@@ -30,36 +34,46 @@ interface IState {
     eventRef: IEvent;
     event: IEvent;
     id: string;
-    editTextLabel: string;
     open: boolean;
     notificationText: string;
     readOnly: boolean;
     openDialog: boolean;
+    showFirstBotMessage: boolean;
+    startDateTimeString: string;
+    endDateTimeString: string;
+    formatedStartDateTime: string;
+    formatedEndDateTime: string;
 }
+
 export interface IEvent {
     name: string;
     date: string;
     time: string;
     address: string;
     guests: [];
+    startDateTime: string;
+    endDateTime: string;
+    description: string;
 }
 const mapStateToProps = (state: IStore) => ({
     lightTheme: state.theme.light
 });
 
 const mapDispatchToProps = (dispatch: any) => ({});
-const apiOrigin = "http://localhost:8000/api";
-
 class Preview extends React.Component<IUserProps, IState> {
     state: IState = {
         eventRef: {} as IEvent,
         event: {} as IEvent,
         id: this.props.match.params.id,
-        editTextLabel: "",
         open: false,
         notificationText: "",
         readOnly: true,
         openDialog: false,
+        showFirstBotMessage: true,
+        startDateTimeString: "",
+        endDateTimeString: "",
+        formatedStartDateTime: "",
+        formatedEndDateTime: ""
     };
     showNotification = (text: string) => {
         this.setState({ open: true, notificationText: text });
@@ -75,32 +89,58 @@ class Preview extends React.Component<IUserProps, IState> {
     handleDialogClose = () => {
         this.setState({openDialog: false})
     }
-
+    handleStartDateChange = (val: any) => {
+        const newEvent = {...this.state.event, startDateTime: val.toString()};
+        this.setState({ event: newEvent }, ()=>{
+            const dateFormat = require('dateformat');
+            this.setState({
+                formatedStartDateTime: dateFormat(this.state.event.startDateTime, "mmmm dS, h:MM TT"),
+            });
+        });
+    }
+    handleEndDateChange = (val: any) =>{
+        const newEvent = {...this.state.event, endDateTime: val.toString()};
+        this.setState({ event: newEvent }, ()=>{
+            const dateFormat = require('dateformat');
+            this.setState({
+                formatedEndDateTime: dateFormat(this.state.event.endDateTime, "mmmm dS, h:MM TT"),
+            });
+        });
+    }
     componentWillMount() {
         const eventId = this.state.id;
         axios
-            .get(`http://localhost:8000/api/event/${eventId}`)
+            .get(`${API_ORIGIN}/event/${eventId}`)
             .then(result => {
                 const event = result.data.event;
                 this.setState({
                     eventRef: { ...JSON.parse(JSON.stringify(event)) }
                 });
                 this.setState({ event: { ...event } }, () => {
-                    console.log(
-                        "Guest Number:",
-                        this.state.event.guests.length
-                    );
-                    const editLabel =
-                        this.state.event.guests.length === 0
-                            ? "Invite your first guest! "
-                            : "Add your next guest!";
-                    this.setState({ editTextLabel: editLabel });
+                    this.setState({
+                        startDateTimeString: event.startDateTime,
+                        endDateTimeString: event.endDateTime
+                    }, ()=>{
+                        const dateFormat = require('dateformat');
+                        this.setState({
+                            formatedStartDateTime: dateFormat(this.state.startDateTimeString, "mmmm dS, h:MM TT"),
+                            formatedEndDateTime: dateFormat(this.state.endDateTimeString, "mmmm dS, h:MM TT")
+                        })
+                    });
                 });
             })
             .catch(error => {
-                console.log("Error", "Get event error!");
+                console.log("Get event error:", error);
             });
     }
+    componentDidMount(){
+        setTimeout(() => {
+            this.setState({
+                showFirstBotMessage: false
+            });
+        }, 5000);
+    }
+
     handleTextFieldChange = (e: any, name: string) => {
         const currentVal = e.target.value;
         const oldEvent = this.state.event;
@@ -108,9 +148,8 @@ class Preview extends React.Component<IUserProps, IState> {
         this.setState({ event: { ...oldEvent } });
     };
     handleSave = () => {
-        axios.put(`${apiOrigin}/event`, { ...this.state.event })
+        axios.put(`${API_ORIGIN}/event`, { ...this.state.event })
             .then(result => {
-                console.log(result.data);
                 this.setState({ eventRef: { ...this.state.event }, readOnly: true }, () => {
                     this.showNotification("Event detail updated!");
                 });
@@ -121,6 +160,11 @@ class Preview extends React.Component<IUserProps, IState> {
     };
     handleCancel = () => {
         this.setState({ event: { ...this.state.eventRef }, readOnly: true }, () => {
+            const dateFormat = require('dateformat');
+            this.setState({
+                formatedStartDateTime: dateFormat(this.state.event.startDateTime, "mmmm dS, h:MM TT"),
+                formatedEndDateTime: dateFormat(this.state.event.endDateTime, "mmmm dS, h:MM TT")
+            });
             this.showNotification("Event detail reset!");
         });
     };
@@ -129,7 +173,7 @@ class Preview extends React.Component<IUserProps, IState> {
     }
     handleYes = () =>{
         this.setState({openDialog: false}, ()=>{
-            axios.get(`${apiOrigin}/event/notify-guests/${this.state.id}`);
+            axios.get(`${API_ORIGIN}/event/notify-guests/${this.state.id}`);
         });
     }
     render() {
@@ -152,99 +196,137 @@ class Preview extends React.Component<IUserProps, IState> {
                     }`}
                 >
                     <PaddingContainer>
-                        <BotMessage
-                            message={
-                                "Here’s your preview! You can customize it to your liking. Then, invite your first guest!"
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            {
+                                this.state.showFirstBotMessage ?
+                                <BotMessage
+                                    message={
+                                        "Here’s your preview! You can customize it to your liking. Then, invite your first guest!"
+                                    }
+                                    messageDelay={0}
+                                />
+                                :
+                                null
                             }
-                            messageDelay={0}
-                        />
-                        <div className="margin-top-6">
-                            <div className="preview-image-container">
-                                <PreviewPic event={this.state.event}/>
+                            
+                            <div className="margin-top-6">
+                                <div className="preview-image-container">
+                                    <PreviewPic event={this.state.event}/>
+                                </div>
                             </div>
-                        </div>
-                        <div className="margin-top-6 date-time-container">
-                            <Paper
-                                className={`date-time-item event-detail-item ${
-                                    this.props.lightTheme
-                                        ? "date-time-item-light"
-                                        : "date-time-item-dark"
-                                }`}
-                            >
+                            <div className="margin-top-6 date-time-container">
+                                <Paper
+                                    className={`date-time-item event-detail-item ${
+                                        this.props.lightTheme
+                                            ? "date-time-item-light"
+                                            : "date-time-item-dark"
+                                    }`}
+                                >
+                                    {
+                                        
+                                        this.state.readOnly ?
+                                            <span>{ this.state.formatedStartDateTime }</span>
+                                            :
+                                            this.state.event.startDateTime ? 
+                                                <DateTimePicker
+                                                    autoOk={true}
+                                                    disableFuture={false}
+                                                    disablePast={true}
+                                                    hideTabs={false}
+                                                    ampm={true}
+                                                    value={new Date(this.state.event.startDateTime)}
+                                                    onChange={this.handleStartDateChange}
+                                                    allowKeyboardControl={false}
+                                                    emptyLabel={"Start date"}
+                                                    leftArrowButtonProps={{ "aria-label": "Prev month" }}
+                                                    rightArrowButtonProps={{ "aria-label": "Next month" }}
+                                                />
+                                                :
+                                                null
+                                    }
+                                </Paper>
+                                <Paper
+                                    className={`date-time-item event-detail-item ${
+                                        this.props.lightTheme
+                                            ? "date-time-item-light"
+                                            : "date-time-item-dark"
+                                    }`}
+                                >
+                                    {   
+                                        this.state.readOnly ?
+                                            <span>{ this.state.formatedEndDateTime }</span>
+                                            :
+                                            this.state.event.endDateTime ?
+                                                <DateTimePicker
+                                                    autoOk={true}
+                                                    disableFuture={false}
+                                                    disablePast={true}
+                                                    hideTabs={false}
+                                                    ampm={true}
+                                                    value={new Date(this.state.event.endDateTime)}
+                                                    onChange={this.handleEndDateChange}
+                                                    allowKeyboardControl={false}
+                                                    emptyLabel={"End date"}
+                                                    minDate={new Date(this.state.event.startDateTime)}
+                                                    onError={()=>{alert("Date should not be before minimal date.")}}
+                                                    leftArrowButtonProps={{ "aria-label": "Prev month" }}
+                                                    rightArrowButtonProps={{ "aria-label": "Next month" }}
+                                                />
+                                                :
+                                                null
+                                    }
+                                </Paper>
+                            </div>
+                            <div className="margin-top-6">
+                                <Paper
+                                    className={`location-container event-detail-item ${
+                                        this.props.lightTheme
+                                            ? "location-light"
+                                            : "location-dark"
+                                    } `}
+                                >
+                                    <Input
+                                        value={this.state.event.address}
+                                        disableUnderline={true}
+                                        readOnly={this.state.readOnly}
+                                        className={"edit-event-textfield"}
+                                        onChange={e =>
+                                            this.handleTextFieldChange(e, "address")
+                                        }
+                                    />
+                                </Paper>
+                            </div>
+                            <div className="margin-top-6">
                                 <Input
-                                    value={this.state.event.date}
-                                    disableUnderline={true}
-                                    className={"edit-event-textfield"}
+                                    className={`title-item ${
+                                        this.props.lightTheme
+                                            ? "event-title-light"
+                                            : "event-title-dark"
+                                    }`}
                                     readOnly={this.state.readOnly}
+                                    value={this.state.event.name}
+                                    disableUnderline={true}
                                     onChange={e =>
-                                        this.handleTextFieldChange(e, "date")
+                                        this.handleTextFieldChange(e, "name")
                                     }
                                 />
-                            </Paper>
-                            <Paper
-                                className={`date-time-item event-detail-item ${
-                                    this.props.lightTheme
-                                        ? "date-time-item-light"
-                                        : "date-time-item-dark"
-                                }`}
-                            >
-                                <Input
-                                    value={this.state.event.time}
-                                    disableUnderline={true}
-                                    readOnly={this.state.readOnly}
-                                    className={"edit-event-textfield"}
-                                    onChange={e =>
-                                        this.handleTextFieldChange(e, "time")
-                                    }
-                                />
-                            </Paper>
-                        </div>
-                        <div className="margin-top-6">
-                            <Paper
-                                className={`location-container event-detail-item ${
-                                    this.props.lightTheme
-                                        ? "location-light"
-                                        : "location-dark"
-                                } `}
-                            >
-                                <Input
-                                    value={this.state.event.address}
-                                    disableUnderline={true}
-                                    readOnly={this.state.readOnly}
-                                    className={"edit-event-textfield"}
-                                    onChange={e =>
-                                        this.handleTextFieldChange(e, "address")
-                                    }
-                                />
-                            </Paper>
-                        </div>
-                        <div className="margin-top-6">
-                            <Input
-                                className={`title-item ${
-                                    this.props.lightTheme
-                                        ? "event-title-light"
-                                        : "event-title-dark"
-                                }`}
+                            </div>
+                            <BotMessage
+                                avatarName="bot"
+                                withInput={true}
                                 readOnly={this.state.readOnly}
-                                value={this.state.event.name}
-                                disableUnderline={true}
-                                onChange={e =>
-                                    this.handleTextFieldChange(e, "name")
+                                message={
+                                    this.state.event.description ? this.state.event.description : "Event description."
                                 }
+                                changeListener={this.handleTextFieldChange}
+                                messageDelay={0}
                             />
-                        </div>
-                        <BotMessage
-                            avatarName="bot"
-                            message={
-                                "Epic hicking trip this weekend. Join soon as spots are filling up fast!"
-                            }
-                            messageDelay={0}
-                        />
-                        <div className="margin-top-6 preview-user-eidt-container">
-                            <InviteEdit
-                                eventId={this.state.id}
-                            />
-                        </div>
+                            <div className="margin-top-6 preview-user-eidt-container">
+                                <InviteEdit
+                                    eventId={this.state.id}
+                                />
+                            </div>
+                        </MuiPickersUtilsProvider>
                     </PaddingContainer>
                 </ContentContainer>
                 <Snackbar

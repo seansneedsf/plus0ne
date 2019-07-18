@@ -13,10 +13,10 @@ class DayNightRow extends React.Component<IDayNightRowProps>{
         return(
             <div className={`day-night-row-container  ${this.props.lightTheme ? 'day-night-row-container-light' : 'day-night-row-container-dark'}`} >
                 <div className="sun-moon-container day-night-svg-container">
-                    {this.props.lightTheme ?<img src={require('../assets/daySun.png')} style={{'width':'100vw', 'height':'135px'}}/> : <img src={require('../assets/nightMoon.svg')} style={{'width':'100vw', 'height':'135px'}}/>}
+                    {this.props.lightTheme ?<img src={require('../assets/daySun.png')} style={{'width':'100%', 'height':'135px'}}/> : <img src={require('../assets/nightMoon.svg')} style={{'width':'100%', 'height':'135px'}}/>}
                 </div>
                 <div className="curve-container day-night-svg-container" style={this.props.lightTheme? {'backgroundColor':'white'} : {}}>
-                    {this.props.lightTheme ? <img src={require('../assets/dayCurve.svg')} style={{'width':'100vw', 'height':'65px'}}/> : <img src={require('../assets/nightCurve.svg')} style={{'width':'100vw', 'height':'65px'}}/>}
+                    {this.props.lightTheme ? <img src={require('../assets/dayCurve.svg')} style={{'width':'100%', 'height':'65px'}}/> : <img src={require('../assets/nightCurve.svg')} style={{'width':'100%', 'height':'65px'}}/>}
                 </div>
             </div>
         );

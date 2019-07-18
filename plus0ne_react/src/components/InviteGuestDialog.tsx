@@ -12,6 +12,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
 import { IStore } from "../reducers";
 import axios from "axios";
+import { API_ORIGIN } from "../globals";
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -56,7 +57,7 @@ class InviteGuestDialog extends React.Component<IInviteGuestDialogProps, IState>
         this.setState({guests: event.guests, coming: comingNumber, invited: guestNumber});
     }
     handleClickOpen = () => {
-        axios.get(`http://localhost:8000/api/event/${this.props.eventId}`)
+        axios.get(`${API_ORIGIN}/event/${this.props.eventId}`)
             .then(result => {
                 this.setGuests(result);
             })
@@ -72,12 +73,11 @@ class InviteGuestDialog extends React.Component<IInviteGuestDialogProps, IState>
         if(e.key === "Enter"){
             if(this.state.email.length){
                 if (emailRegex.test(String(this.state.email).toLowerCase())) {
-                    axios.put(`http://localhost:8000/api/event/guest`, {
+                    axios.put(`${API_ORIGIN}/event/guest`, {
                         id: this.props.eventId,
                         email: this.state.email
                     })
                     .then(result => {
-                        console.log("Update email call back result: ",result);
                         this.setState({ email: "" }, () => {
                             this.setGuests(result);
                             this.showNotification("Guest Invited.");

@@ -9,9 +9,6 @@ interface IGuestAvatarProps{
     response: string;
 }
 class GuestAvatar extends React.Component<IGuestAvatarProps>{
-    componentDidMount(){
-        console.log("here is the user response:",this.props.response)
-    }
     render(){
         return(
                 <div className="guest-response__container">
