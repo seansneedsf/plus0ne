@@ -16,7 +16,6 @@ class BotMessage extends React.Component<IBotMessageProps, {}>{
     static defaultProps = {
         avatarName: "bot"
     };
-    // style={{'width':`${this.props.message.length*15.5}px`}}
     render(){
         return(
             <div className="user-message-container">

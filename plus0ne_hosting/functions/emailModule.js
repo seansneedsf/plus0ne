@@ -8,12 +8,12 @@ const transPorter = nodeMailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: 'plus0ne.event.noreply@gmail.com',
+        user: process.env.EMAIL_ADDRESS,
         pass: process.env.EMAIL_PWD	
     }
 });
 const mailOptions = {
-    from: '"PlusOne" <plus0ne.event.noreply@gmail.com>', // sender address
+    from: `PlusOne <${process.env.EMAIL_ADDRESS}>`, // sender address
     to: "xxx@xxx.xxx", // list of receivers
     subject: "Plus0ne Event", // Subject line
     html: '<b>Plus0ne </b>' // html body
@@ -22,8 +22,8 @@ const mailOptions = {
 const sendMail2Host = (event, manageEventURL) => {
     let email2hostLocal = emailTemplates.email2host;
     email2hostLocal = email2hostLocal.replace(/%URL%/g, manageEventURL);
-    email2hostLocal = email2hostLocal.replace("%DATE%", event.date);
-    email2hostLocal = email2hostLocal.replace("%TIME%", event.time);
+    email2hostLocal = email2hostLocal.replace("%DATE%", event.startDateTime);
+    email2hostLocal = email2hostLocal.replace("%TIME%", event.endDateTime);
     email2hostLocal = email2hostLocal.replace("%ADDRESS%", event.address);
     email2hostLocal = email2hostLocal.replace("%NAME%", event.name);
     email2hostLocal = email2hostLocal.replace("%IMAGEURI%", (event.customImage?event.customImage:"https://source.unsplash.com/335x180/?nature"));
@@ -34,8 +34,8 @@ const sendMail2Host = (event, manageEventURL) => {
 
 const sendMail2Guest = (event, guest, acceptURL, declineURL) => {
     let email2guestLocal = emailTemplates.email2guest;
-    email2guestLocal = email2guestLocal.replace("%DATE%", event.date);
-    email2guestLocal = email2guestLocal.replace("%TIME%", event.time);
+    email2guestLocal = email2guestLocal.replace("%DATE%", event.startDateTime);
+    email2guestLocal = email2guestLocal.replace("%TIME%", event.endDateTime);
     email2guestLocal = email2guestLocal.replace("%ADDRESS%", event.address);
     email2guestLocal = email2guestLocal.replace("%NAME%", event.name);
     email2guestLocal = email2guestLocal.replace("%ACCEPT_URL%", acceptURL);
@@ -47,11 +47,11 @@ const sendMail2Guest = (event, guest, acceptURL, declineURL) => {
 }
 
 const sendMail2All = ( event, origin ) =>{
-    const hostCallBackAddress = `${origin}/event/${event.id}`;
-    sendMail2Host(event, hostCallBackAddress);
+    // const hostCallBackAddress = `${origin}/event/${event.id}`;
+    // sendMail2Host(event, hostCallBackAddress);
     let email2guestLocal = emailTemplates.email2guest;
-    email2guestLocal = email2guestLocal.replace("%DATE%", event.date);
-    email2guestLocal = email2guestLocal.replace("%TIME%", event.time);
+    email2guestLocal = email2guestLocal.replace("%DATE%", event.startDateTime);
+    email2guestLocal = email2guestLocal.replace("%TIME%", event.endDateTime);
     email2guestLocal = email2guestLocal.replace("%ADDRESS%", event.address);
     email2guestLocal = email2guestLocal.replace("%NAME%", event.name);
     email2guestLocal = email2guestLocal.replace("%IMAGEURI%", (event.customImage?event.customImage:"https://source.unsplash.com/335x180/?nature"));

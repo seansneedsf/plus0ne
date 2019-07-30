@@ -9,7 +9,7 @@ const firebaseAdmin = require("./firebaseModule");
 
 //hanlde initial request for create event
 router.get("/", (req, res)=>{
-    console.log(`GET Template event.`);
+    console.log(`GET Template event`);
     const event = new Event();
     res.json({event});
 });
@@ -22,19 +22,21 @@ router.get("/:id", async (req, res)=>{
 });
 
 //handle create event and save event to firebase
-router.post("/", (req, res)=>{
+router.post("/", async (req, res)=>{
     console.log("POST: Create a new event")
-    const {id, name, date, time, address, email} = {...req.body};
+    const {id, name, startDateTime, endDateTime, address, email} = { ...req.body };
     const origin = (req.get('origin')?req.get('origin'):"http://localhost:3000");
-    if(id&&name&&date&&time&&address&&email){
+    console.log(id, name, startDateTime, endDateTime, address, email)
+    if(id&&name&&startDateTime&&endDateTime&&address&&email){
         const callBackAddress = `${origin}/event/${id}`;
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         console.log( "Call Back Address: ", callBackAddress);
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        const event = new Event(id, name, date, time, address, email, undefined);
-        // TODO: unlock send email when ready (commented out sending email because is too annoying for testing)
-        emailModule.sendMail2Host(event, callBackAddress);
-        firebaseAdmin.createEvent(id, {...event});
+        const event = new Event(id, name, startDateTime, endDateTime, address, email, undefined);
+        //emailModule.sendMail2Host(event, callBackAddress);
+        console.log(event.id, event.name)
+        await firebaseAdmin.createEvent(id, {...event});
+        console.log("call firebaseAdmin.createEvent(id, {...event})", )
     }
     res.json({...req.body});
 });
@@ -43,20 +45,19 @@ router.post("/", (req, res)=>{
 router.put("/", async (req, res)=>{
     console.log("Put: Update event detail")
     const origin = (req.get('origin')?req.get('origin'):"http://localhost:3000");
-    const {id, name, date, time, address} = {...req.body};
-    if(id&&name&&date&&time&&address){
+    const {id, name, startDateTime, endDateTime, address, description} = {...req.body};
+    if(id&&name&&startDateTime&&endDateTime&&address){
         const firebaseEvent = await firebaseAdmin.getEvent(id);
         firebaseEvent.name = name;
-        firebaseEvent.date = date;
-        firebaseEvent.time = time;
+        firebaseEvent.startDateTime = startDateTime;
+        firebaseEvent.endDateTime = endDateTime;
         firebaseEvent.address = address;
+        firebaseEvent.description = description;
         const callBackAddress = `${origin}/event/${id}`;
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         console.log( "Call Back Address: ", callBackAddress);
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        // TODO: unlock send email when ready (commented out sending email because is too annoying for testing)
-        // emailModule.sendMail2Host(email, callBackAddress);
-        firebaseAdmin.createEvent(id, {...firebaseEvent});
+        firebaseAdmin.createEvent(id, firebaseEvent);
     }
     res.json({...req.body});
 });
@@ -105,16 +106,16 @@ router.get("/notify-guests/:id", async (req, res) => {
     const event = await firebaseAdmin.getEvent(eventId);
     const origin = req.get('host');
     emailModule.sendMail2All(event, origin);
+    res.end();
 });
 
 router.post('/upload-image', async (req, res) => {
-    const imageDetail = req.files;
+    const base64Image = req.body.file;
     const id = req.body.eventId;
     let event = await firebaseAdmin.getEvent(id);
-    const imageHex = imageDetail.file.data.toString('hex');
-    const imageBase64 = 'data:image/jpeg;base64,' + Buffer.from(imageHex, 'hex').toString('base64');
-    event = {...event, customImage: imageBase64};
+    event = {...event, customImage: base64Image};
+    event.customImage = base64Image;
     firebaseAdmin.createEvent(id, {...event});
-    res.send(imageBase64);
+    res.send(base64Image);
 });
 module.exports = router;

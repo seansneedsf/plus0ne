@@ -14,6 +14,7 @@ import GuestResponse from "./GuestResponse";
 import HostEdit from "./HostEdit";
 import axios from "axios";
 import {IEvent} from "./Preview";
+import { API_ORIGIN } from "../globals";
 
 interface IUserProps {
     lightTheme: boolean,
@@ -34,13 +35,12 @@ class Preview extends React.Component<IUserProps, {}>{
     }
     componentWillMount(){
         const eventId = this.state.id;
-        axios.get(`http://localhost:8000/api/event/${eventId}`)
+        axios.get(`${API_ORIGIN}/event/${eventId}`)
         .then( result =>{
-            console.log("Result", result);
             const event = result.data.event;
             this.setState({event:{...event}});
         }).catch(error => {
-            console.log("Error", "Get event error!");
+            console.error("Get event error: ", error);
         })
     }
     render(){

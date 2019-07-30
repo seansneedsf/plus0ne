@@ -19,9 +19,10 @@ class Home extends React.Component{
     public render() {
         return (
             <MainContainer>
-                {this.state.showSplash ? <Splash/>
-                :
-                    (
+                {
+                    this.state.showSplash ?
+                        <Splash/>
+                        :
                         <div>
                             <AppBarContainer>
                                 <AppBar/>
@@ -31,7 +32,6 @@ class Home extends React.Component{
                                 <ContentRow/>
                             </ContentContainer>
                         </div>
-                    ) 
                 }
             </MainContainer>
         );
