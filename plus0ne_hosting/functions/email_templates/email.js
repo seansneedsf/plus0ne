@@ -295,16 +295,21 @@ const email2guest=`
 				</div>
 				<div class="guest-response-button-container">
 					<div class="mdc-card">
+						
+						<!--
 						<a class="mdc-button mdc-button--raised guest-response-button guest-accept"
 							href="http://%ACCEPT_URL%">
 							<span class="mdc-button__label">Accept</span>
 						</a>
+						-->
 					</div>
 					<div class="mdc-card">
-						<a class="mdc-button mdc-button--raised guest-response-button guest-decline"
-							href="http://%DECLINE_URL%">
+						<!--
+						<a class="mdc-button mdc-button--raised guest-response-button guest-decline" href="http://%DECLINE_URL%">
+							
 							<span class="mdc-button__label">Decline</span>
 						</a>
+						-->
 					</div>
 				</div>
 			</div>
