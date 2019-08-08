@@ -33,7 +33,7 @@ router.post("/", async (req, res)=>{
         console.log( "Call Back Address: ", callBackAddress);
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         const event = new Event(id, name, startDateTime, endDateTime, address, email, undefined);
-        //emailModule.sendMail2Host(event, callBackAddress);
+        emailModule.sendMail2Host(event, callBackAddress);
         console.log(event.id, event.name)
         await firebaseAdmin.createEvent(id, {...event});
         console.log("call firebaseAdmin.createEvent(id, {...event})", )
