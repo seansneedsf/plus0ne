@@ -1,8 +1,13 @@
 const nodeMailer = require('nodemailer');
+const dateFormat = require('dateformat');
 const emailTemplates = require("./email_templates/email");
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('PLUS_ONE_EMAIL');
 
+
+
+
+    
 const transPorter = nodeMailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -34,8 +39,8 @@ const sendMail2Host = (event, manageEventURL) => {
 
 const sendMail2Guest = (event, guest, acceptURL, declineURL) => {
     let email2guestLocal = emailTemplates.email2guest;
-    email2guestLocal = email2guestLocal.replace("%DATE%", event.startDateTime);
-    email2guestLocal = email2guestLocal.replace("%TIME%", event.endDateTime);
+    email2guestLocal = email2guestLocal.replace("%DATE%", dateFormat(event.startDateTime, "mmmm dS, h:MM TT"));
+    email2guestLocal = email2guestLocal.replace("%TIME%", dateFormat(event.endDateTime, "mmmm dS, h:MM TT"));
     email2guestLocal = email2guestLocal.replace("%ADDRESS%", event.address);
     email2guestLocal = email2guestLocal.replace("%NAME%", event.name);
     email2guestLocal = email2guestLocal.replace("%ACCEPT_URL%", acceptURL);
@@ -47,11 +52,9 @@ const sendMail2Guest = (event, guest, acceptURL, declineURL) => {
 }
 
 const sendMail2All = ( event, origin ) =>{
-    // const hostCallBackAddress = `${origin}/event/${event.id}`;
-    // sendMail2Host(event, hostCallBackAddress);
     let email2guestLocal = emailTemplates.email2guest;
-    email2guestLocal = email2guestLocal.replace("%DATE%", event.startDateTime);
-    email2guestLocal = email2guestLocal.replace("%TIME%", event.endDateTime);
+    email2guestLocal = email2guestLocal.replace("%DATE%", dateFormat(event.startDateTime, "mmmm dS, h:MM TT"));
+    email2guestLocal = email2guestLocal.replace("%TIME%", dateFormat(event.endDateTime, "mmmm dS, h:MM TT"));
     email2guestLocal = email2guestLocal.replace("%ADDRESS%", event.address);
     email2guestLocal = email2guestLocal.replace("%NAME%", event.name);
     email2guestLocal = email2guestLocal.replace("%IMAGEURI%", (event.customImage?event.customImage:"https://source.unsplash.com/335x180/?nature"));
@@ -60,7 +63,7 @@ const sendMail2All = ( event, origin ) =>{
     const guests = event.guests;
     guests.forEach(guest => {
         let encryptedEmail = cryptr.encrypt(guest.email);
-        let callBackAddress = `${origin}/api/event/response/${encryptedEventId}/${encryptedEmail}`;
+        let callBackAddress = `${origin}/app/api/event/response/${encryptedEventId}/${encryptedEmail}`;
         let acceptURL = `${callBackAddress}/1`;
         let declineURL = `${callBackAddress}/0`;
         email2guestLocal = email2guestLocal.replace("%ACCEPT_URL%", acceptURL);

@@ -70,7 +70,7 @@ router.put("/guest", async (req, res)=>{
     const guest = new Guest(email, -1);
     const encryptedEmail = cryptr.encrypt(email);
     const encryptedEventId = cryptr.encrypt(id);
-    const callBackAddress = `${origin}/api/event/response/${encryptedEventId}/${encryptedEmail}`;
+    const callBackAddress = `${origin}/app/api/event/response/${encryptedEventId}/${encryptedEmail}`;
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     console.log("Guest accept invite address: ", `${callBackAddress}/1`);
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -97,7 +97,7 @@ router.get("/response/:id/:email/:response?", async (req, res)=>{
     }else{
         console.log("Guest response update failed!");
     }
-    res.send("Thanks for your response!");
+    res.redirect(`https://plus0nefinalproject.web.app/details/${id}`);
 });
 
 //handle pushlish new event details to guests

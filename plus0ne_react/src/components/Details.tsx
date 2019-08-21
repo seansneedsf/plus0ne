@@ -10,8 +10,8 @@ import { connect } from "react-redux";
 import { IStore } from "../reducers";
 import TitleBox from "./TitleBox";
 import PreviewPic from "./PreviewPic";
-import GuestResponse from "./GuestResponse";
-import HostEdit from "./HostEdit";
+// import GuestResponse from "./GuestResponse";
+// import HostEdit from "./HostEdit";
 import axios from "axios";
 import {IEvent} from "./Preview";
 import { API_ORIGIN } from "../globals";
@@ -43,6 +43,10 @@ class Preview extends React.Component<IUserProps, {}>{
             console.error("Get event error: ", error);
         })
     }
+    toLocaleDate(date:string){
+        const dateFormat = require('dateformat');
+        return dateFormat(date, "mmmm dS, h:MM TT");
+    }
     render(){
         return(
             <MainContainer>
@@ -58,10 +62,10 @@ class Preview extends React.Component<IUserProps, {}>{
                         </div>    
                         <div className="margin-top-6 date-time-container">
                             <Paper className={`date-time-item event-detail-item ${this.props.lightTheme ? 'date-time-item-light':'date-time-item-dark'}`}>
-                                <span className="detail-item-font typographic-color-dark">{this.state.event.date}</span>
+                                <span className="detail-item-font typographic-color-dark">{this.toLocaleDate(this.state.event.startDateTime)}</span>
                             </Paper>
                             <Paper className={`date-time-item event-detail-item ${this.props.lightTheme ? 'date-time-item-light':'date-time-item-dark'}`}>
-                                <span className="detail-item-font typographic-color-dark">{this.state.event.time}</span>
+                                <span className="detail-item-font typographic-color-dark">{this.toLocaleDate(this.state.event.endDateTime)}</span>
                             </Paper>
                         </div>
                         <div className="margin-top-6">
@@ -75,13 +79,14 @@ class Preview extends React.Component<IUserProps, {}>{
                         <div className="conversation-section">
                             <div className="conversations">
                                 <BotMessage 
+                                    messageDelay={0}
                                     avatarName="bot"
-                                    message={`Epic hicking trip this weekend. Join soon as spots are filling up fast!`}/>   
-                                <GuestResponse message="Thanks for the invite!"/>
+                                    message={`Thanks for your response!`}/>   
+                                {/* <GuestResponse message="Thanks for the invite!"/> */}
                             </div>
-                            <div className={`conversation-input ${this.props.lightTheme ? 'app-preview-light':'app-preview-dark'}`}>
+                            {/* <div className={`conversation-input ${this.props.lightTheme ? 'app-preview-light':'app-preview-dark'}`}>
                                 <HostEdit placeHolder="Type or tell me your message here!"/>
-                            </div>
+                            </div> */}
                         </div>
                     </PaddingContainer> 
                 </ContentContainer>

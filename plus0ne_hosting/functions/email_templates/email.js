@@ -106,7 +106,7 @@ const email2host=`
 				<div class="mdc-top-app-bar__row">
 					<div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
 						<span class="mdc-top-app-bar__navigation-icon">
-							<img src="./medias/plus0ne_logo_light.png" class="logo"/>
+							<img src="https://plus0nefinalproject.web.app/static/media/plus0ne_logo_light.e68e77dd.png" class="logo"/>
 						</span>
 						<span class="mdc-top-app-bar__title">Plus0ne</span>
 					</div>
@@ -265,7 +265,7 @@ const email2guest=`
 				<div class="mdc-top-app-bar__row">
 					<div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
 						<span class="mdc-top-app-bar__navigation-icon">
-							<img src="./medias/plus0ne_logo_light.png" class="logo"/>
+							<img src="https://plus0nefinalproject.web.app/static/media/plus0ne_logo_light.e68e77dd.png" class="logo"/>
 						</span>
 						<span class="mdc-top-app-bar__title">Plus0ne</span>
 					</div>
@@ -295,21 +295,15 @@ const email2guest=`
 				</div>
 				<div class="guest-response-button-container">
 					<div class="mdc-card">
-						
-						<!--
 						<a class="mdc-button mdc-button--raised guest-response-button guest-accept"
 							href="http://%ACCEPT_URL%">
 							<span class="mdc-button__label">Accept</span>
 						</a>
-						-->
 					</div>
 					<div class="mdc-card">
-						<!--
 						<a class="mdc-button mdc-button--raised guest-response-button guest-decline" href="http://%DECLINE_URL%">
-							
 							<span class="mdc-button__label">Decline</span>
 						</a>
-						-->
 					</div>
 				</div>
 			</div>
