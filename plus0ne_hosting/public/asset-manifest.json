@@ -1,12 +1,12 @@
 {
-  "main.css": "static/css/main.13c45c0d.css",
-  "main.css.map": "static/css/main.13c45c0d.css.map",
-  "main.js": "static/js/main.05d2db39.js",
-  "main.js.map": "static/js/main.05d2db39.js.map",
-  "static\\media\\dayCurve.svg": "static/media/dayCurve.27efe796.svg",
-  "static\\media\\nightCurve.svg": "static/media/nightCurve.fa1ac3d5.svg",
-  "static\\media\\nightMoon.svg": "static/media/nightMoon.da094191.svg",
-  "static\\media\\plus0ne_logo.png": "static/media/plus0ne_logo.8530e0d7.png",
-  "static\\media\\plus0ne_logo_dark.png": "static/media/plus0ne_logo_dark.5b4013e2.png",
-  "static\\media\\plus0ne_logo_light.png": "static/media/plus0ne_logo_light.e68e77dd.png"
+  "main.css": "static/css/main.45dd3323.css",
+  "main.css.map": "static/css/main.45dd3323.css.map",
+  "main.js": "static/js/main.dca34376.js",
+  "main.js.map": "static/js/main.dca34376.js.map",
+  "static/media/dayCurve.svg": "static/media/dayCurve.27efe796.svg",
+  "static/media/nightCurve.svg": "static/media/nightCurve.fa1ac3d5.svg",
+  "static/media/nightMoon.svg": "static/media/nightMoon.da094191.svg",
+  "static/media/plus0ne_logo.png": "static/media/plus0ne_logo.8530e0d7.png",
+  "static/media/plus0ne_logo_dark.png": "static/media/plus0ne_logo_dark.5b4013e2.png",
+  "static/media/plus0ne_logo_light.png": "static/media/plus0ne_logo_light.e68e77dd.png"
 }

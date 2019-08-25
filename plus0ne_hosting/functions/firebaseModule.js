@@ -33,7 +33,6 @@ async function getEvent(eventId){
             resolve();
             return;
         }).catch(err=>{
-            console.log("Error retrieving:", err);
             reject(error);
         })
     });
@@ -43,10 +42,8 @@ async function getEvent(eventId){
 async function appendGuest(eventId, guest){
     const docRef = database.collection("events").doc(eventId);
     const eventDetail = await getEvent(eventId);
-    console.log("event detail: ", eventDetail);
     let guestIndex = eventDetail.guests.findIndex(g => g.email === guest.email);
     if(guestIndex !== -1){
-        console.log("Guest already exists..")
         return true;
     }
     eventDetail.guests.push(guest);
@@ -54,11 +51,9 @@ async function appendGuest(eventId, guest){
     await new Promise((resolve, reject) => {
         docRef.set(eventDetail).then(()=>{
             appened= true;
-            console.log("Document successfully written!");
             resolve();
             return;
         }).catch((error)=>{
-            console.error("Error writing document: ", error);
             reject(error);
         });
     });
@@ -70,18 +65,15 @@ async function updateGuestResponse(eventId, email, response){
     const eventDetail = await getEvent(eventId);
     let guestIndex = eventDetail.guests.findIndex(g => g.email === email);
     if(guestIndex === -1){
-        console.log("No update: Guest does not exists....");
         return false;
     }
     eventDetail.guests[guestIndex].response = response;
     await new Promise((resolve, reject) => {
             docRef.set(eventDetail).then(()=>{
                 appened= true;
-                console.log("Document successfully written!");
                 resolve();
                 return;
             }).catch((error)=>{
-                console.error("Error writing document: ", error);
                 reject(error);
             });
         });
